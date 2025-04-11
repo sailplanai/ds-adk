@@ -84,11 +84,13 @@ def main(argv: list[str]) -> None:  # pylint: disable=unused-argument
         for event in agent.stream_query(
             user_id=FLAGS.user_id, session_id=session["id"], message=user_input
         ):
-            parts = event["content"]["parts"]
-            for part in parts:
-                if "text" in part:
-                    text_part = part["text"]
-                    print(f"Response: {text_part}")
+            if "content" in event:
+                if "parts" in event["content"]:
+                    parts = event["content"]["parts"]
+                    for part in parts:
+                        if "text" in part:
+                            text_part = part["text"]
+                            print(f"Response: {text_part}")
 
     agent.delete_session(user_id=FLAGS.user_id, session_id=session["id"])
     print(f"Deleted session for user ID: {FLAGS.user_id}")

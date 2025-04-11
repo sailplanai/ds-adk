@@ -1,6 +1,6 @@
 # Travel Concierge
 
-This sample demonstrates the use of Agent Development Kit to deliver a new user experience for Travelers. A cohort of agents mimick the notion of having a personal travel concierge, taking care of a traveler's needs: from trip conception, planning and booking, to preparing for the trip, getting help to get from point A to B during the trip, while simultaneously acting as an informative guide.
+This sample demonstrates the use of Agent Development Kit to deliver a new user experience for Travelers. A cohort of agents mimics the notion of having a personal travel concierge, taking care of a traveler's needs: from trip conception, planning and booking, to preparing for the trip, getting help to get from point A to B during the trip, while simultaneously acting as an informative guide.
 
 This example includes illustrations with ADK supported tools such as Google Places API, Google Search Grounding and MCP.
 
@@ -36,13 +36,13 @@ Travel Concierge Agents Architecture
 Expand on the "Key Components" from above.
 *   **Agents:**
     * `inspiration_agent` - Interacts with the user to make suggestions on destinations and activities, inspire the user to choose one.
-    * `planning_agent` - Given a destination, start date, and duration, the planning agent helps the user select flights, seats and a hotel (mocked), then generate an itinerary containing the acitivites.
+    * `planning_agent` - Given a destination, start date, and duration, the planning agent helps the user select flights, seats and a hotel (mocked), then generate an itinerary containing the activities.
     * `booking_agent` - Given an itinerary, the booking agent will help process those items in the itinerary that requires payment.
     * `pre_trip_agent` - Intended to be invoked regularly before the trip starts; This agent fetches relevant trip information given its origin, destination, and the user's nationality.
     * `in_trip_agent`- Intended to be invoked frequently during the trip. This agent provide three services: monitor any changes in bookings (mocked), acts as a informative guide, and provides transit assistance.
     * `post_trip_agent` - In this example, the post trip agent asks the traveler about their experience and attempts to extract and store their various preferences base on the trip, so that the information could be useful in future interactions.
 *   **Tools:**
-    * `map_tool` - retrieves lat/lons; geocoding an address with the Google Map API.
+    * `map_tool` - retrieves lat/long; geocoding an address with the Google Map API.
     * `memorize` - a function to memorize information from the dialog that are important to trip planning and to provide in-trip support.
 *   **AgentTools:**  
     * `google_search_grounding` - used in the example for pre-trip information gather such as visa, medical, travel advisory...etc.
@@ -61,7 +61,7 @@ Expand on the "Key Components" from above.
 *   **Memory:** 
     * All agents and tools in this example use the Agent Development Kit's internal session state as memory.
     * The session state is used to store information such as the itinerary, and temporary AgentTools' responses.
-    * There are a number of pre-made itineraries that can be loaded for test runs. See 'Running the Agent' below on how to run them.
+    * There are a number of premade itineraries that can be loaded for test runs. See 'Running the Agent' below on how to run them.
 
 ## Setup and Installation
 
@@ -188,7 +188,7 @@ Here is something to try:
 Below is an example of interacting with the agent as a server using Python. 
 Try it under the travel-concierge directory:
 
-First, establish a quick development api server for the travel_concierge package.
+First, establish a quick development API server for the travel_concierge package.
 ```bash
 adk api_server travel_concierge
 ```
@@ -220,7 +220,7 @@ Without specifically optimizing for such usage, this cohort of agents seem to be
 
 ## Running Tests
 
-To run the illustrative tests and evaluations, install the extra dependencies and run pytest:
+To run the illustrative tests and evaluations, install the extra dependencies and run `pytest`:
 
 ```
 poetry install --with dev
@@ -258,7 +258,7 @@ run the following command for one turn with the agent "Looking for inspirations 
 ```bash
 python deployment/deploy.py --quicktest --resource_id=<RESOURCE_ID>
 ```
-This will return a stream of json payload indicating the deployed agent is functional.
+This will return a stream of JSON payload indicating the deployed agent is functional.
 
 To delete the agent, run the following command (using the resource ID returned previously):
 ```bash
@@ -269,7 +269,7 @@ python3 deployment/deploy.py --delete --resource_id=<RESOURCE_ID>
 
 ### Callbacks and initial State
 
-The root_agent in this demo currently has a `before_agent_callback` registered to load an initial state, such as user preferences and itinerary, from a file into the session state for interaction. The primary reason for this is to reduce the amount of set up necessary, and this makes it easy to use the adk UIs.
+The `root_agent` in this demo currently has a `before_agent_callback` registered to load an initial state, such as user preferences and itinerary, from a file into the session state for interaction. The primary reason for this is to reduce the amount of set up necessary, and this makes it easy to use the ADK UIs.
 
 In a realistic application scenario, initial states can be included when a new `Session` is being created, there by satisfying use cases where user preferences and other pieces of information are most likely loaded from external databases.
  
@@ -283,7 +283,7 @@ reciprocal writes to session states from tools should in addition be persisted, 
 An example using Airbnb's MCP server is included. ADK supports MCP and provides several MCP tools.
 This example attaches the Airbnb search and listing MCP tools to the `planning_agent`, and ask the concierge to simply find an airbnb given certain dates. The concierge will transfer the request to the planning agent which in turn will call the Airbnb search MCP tool.
 
-To try the example, first set up nodejs and npx from Node.js [website]*https://nodejs.org/en/download)
+To try the example, first set up nodejs and npx from Node.js [website](https://nodejs.org/en/download)
 
 Making sure:
 ```
@@ -294,7 +294,7 @@ $ which npx
 /Users/USERNAME/.nvm/versions/node/v22.14.0/bin/npx
 ```
 
-Then, under the `travel-concierge/' directory, run the test with:
+Then, under the `travel-concierge/` directory, run the test with:
 ```
 python -m tests.mcp_abnb
 ```
@@ -372,12 +372,12 @@ A typical end-user will be interacting with agents via GUIs instead of pure text
 - Expandable videos, images, link outs.
 - Selection of flights and hotels as lists with logos, 
 - Selection of flight seats on a seating chart,
-- Clickable pre-canned responses.
+- Clickable templated responses.
 
 Many of these can be achieved via ADK's Events. This is because:
 - All function calls and function responses are reported as events by the session runner.
-- In this travel-concierge example, several sub-agents and tools use an explicit pydantic schema and controled generation to generate a JSON response. These agents are: place agent (for destinatinos), poi agent (for pois and activities), flights and hotels selection agents, seats and rooms selection agents, and itinerary.
-- When a session runner service is wrapped as a server end_point, the series of events carrying these JSON payloads can be streamed over to the application.
+- In this travel-concierge example, several sub-agents and tools use an explicit pydantic schema and controlled generation to generate a JSON response. These agents are: place agent (for destinations), poi agent (for pois and activities), flights and hotels selection agents, seats and rooms selection agents, and itinerary.
+- When a session runner service is wrapped as a server endpoint, the series of events carrying these JSON payloads can be streamed over to the application.
 - When the application recognizes the payload schema by their source agent, it can therefore render the payload accordingly.
 
 To see how to work with events, agents and tools responses, open the file [`tests/programmatic_example.py`](tests/programmatic_example.py).
@@ -388,7 +388,7 @@ python tests/programmatic_example.py
 ```
 
 You will get outputs similar to this below:
-```json
+```
 [user]: "Inspire me about Maldives"
 
 ...
@@ -443,14 +443,14 @@ Are any of these destinations sound interesting? I can provide you with some act
 
 ```
 
-In an evironment where the events are passed from the server running the agents to an application front-end, the application can use the method in this example to parse and identify which payload is being sent and choose the most apporpriate payload renderer / handler.
+In an environment where the events are passed from the server running the agents to an application front-end, the application can use the method in this example to parse and identify which payload is being sent and choose the most appropriate payload renderer / handler.
 
 ## Customization
 
 The following are some ideas how one can reuse the concierge and make it your own.
 
-### Load a pre-made itinerary to demo the in-trip flow
-- By default, a user_profile and an empty itinerary is loaded from `eval/itinerary_empty_default.json`.
+### Load a premade itinerary to demo the in-trip flow
+- By default, a user profile and an empty itinerary is loaded from `eval/itinerary_empty_default.json`.
 - To specify a different file to load, such as the Seattle example `eval/itinerary_seattle_example.json`:
   - Set the environmental variable `TRAVEL_CONCIERGE_SCENARIO` to `eval/itinerary_seattle_example.json` in the `.env`.
   - Then restart `adk web` and load the travel concierge.
@@ -458,10 +458,10 @@ The following are some ideas how one can reuse the concierge and make it your ow
 - You can see the loaded user profile and itinerary when you select "State" in the GUI.
 
 
-### Make your own pre-made itinerary for demos
+### Make your own premade itinerary for demos
 
 - The Itinerary schema is defined in types.py
-- Make a copy of itinerary_seattle_example.json and make your own `itinerary` following the schema.
+- Make a copy of `itinerary_seattle_example.json` and make your own `itinerary` following the schema.
 - Use the above steps to load and test your new itinerary.
 - For the `user_profile` dict:
   - `passport_nationality` and `home` are mandatory fields, modify only the `address` and `local_prefer_mode`.
@@ -474,7 +474,7 @@ There are many opportunities for enhancements, customizations and integration in
 - Connecting to real flights / seats selection systems
 - Connecting to real hotels / rooms selection systems
 - Usage of external memory persistence services, or databases, instead of the session's state
-- Use of the Google Maps [Route API](https://developers.google.com/maps/documentation/routes) in day_of agent.
+- Use of the Google Maps [Route API](https://developers.google.com/maps/documentation/routes) in `day_of` agent.
 - Connect to external APIs for visa / medical / travel advisory and NOAA storm information instead of using Google Search Grounding.
 
 

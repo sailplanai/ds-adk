@@ -8,11 +8,11 @@ The Cymbal Home & Garden Customer Service Agent is designed to provide a seamles
 
 ## Agent Details
 
-The key features of the FOMC Research Agent include:
+The key features of the Customer Service Agent include:
 
 | Feature            | Description             |
 | ------------------ | ----------------------- |
-| _Interaction Type_ | Conversational           |
+| _Interaction Type_ | Conversational          |
 | _Complexity_       | Intermediate            |
 | _Agent Type_       | Single Agent            |
 | _Components_       | Tools, Multimodal, Live |

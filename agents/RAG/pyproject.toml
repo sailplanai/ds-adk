@@ -18,6 +18,7 @@ google-auth = "^2.36.0"
 requests = "^2.32.3"
 google-adk = ">=0.0.1"
 google-cloud-aiplatform = {extras = ["adk", "agent-engines"], version = "^1.88.0"}
+llama-index = "^0.12"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.5"
