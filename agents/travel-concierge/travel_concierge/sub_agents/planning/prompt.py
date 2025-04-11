@@ -184,6 +184,15 @@ Return the response as a JSON object formatted like this:
     }
   ]}}
 }}
+
+Remember that you can only use the tools to complete your tasks: 
+  - `flight_search_agent`,
+  - `flight_seat_selection_agent`,
+  - `hotel_search_agent`,
+  - `hotel_room_selection_agent`,
+  - `itinerary_agent`,
+  - `memorize`
+
 """
 
 FLIGHT_SEAT_SELECTION_INSTR = """

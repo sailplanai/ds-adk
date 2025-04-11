@@ -16,13 +16,14 @@
 
 from google.adk.agents import Agent
 from google.adk.tools.agent_tool import AgentTool
+from google.genai.types import GenerateContentConfig
 
 from travel_concierge.sub_agents.booking import prompt
 
 
-confirm_reservation_agent = Agent(
+create_reservation = Agent(
     model="gemini-2.0-flash-001",
-    name="confirm_reservation_agent",
+    name="create_reservation",
     description="""Create a reservation for the selected item.""",
     instruction=prompt.CONFIRM_RESERVATION_INSTR,
 )
@@ -49,8 +50,11 @@ booking_agent = Agent(
     description="Given an itinerary, complete the bookings of items by handling payment choices and processing.",
     instruction=prompt.BOOKING_AGENT_INSTR,
     tools=[
-        AgentTool(agent=confirm_reservation_agent),
+        AgentTool(agent=create_reservation),
         AgentTool(agent=payment_choice),
         AgentTool(agent=process_payment),
     ],
+    generate_content_config=GenerateContentConfig(
+        temperature=0.0, top_p=0.5
+    )
 )

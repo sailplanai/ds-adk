@@ -31,7 +31,7 @@ def test_inspire():
     AgentEvaluator.evaluate(
         "travel_concierge",
         str(pathlib.Path(__file__).parent / "data/inspire.test.json"),
-        num_runs=1,
+        num_runs=4,
         initial_session_file=str(pathlib.Path(__file__).parent
                                  / "itinerary_empty_default.json")
     )
@@ -42,7 +42,7 @@ def test_pretrip():
     AgentEvaluator.evaluate(
         "travel_concierge",
         str(pathlib.Path(__file__).parent / "data/pretrip.test.json"),
-        num_runs=1,
+        num_runs=4,
         initial_session_file=str(pathlib.Path(__file__).parent
                                  / "itinerary_seattle_example.json")
     )
@@ -53,7 +53,7 @@ def test_intrip():
     AgentEvaluator.evaluate(
         "travel_concierge",
         str(pathlib.Path(__file__).parent / "data/intrip.test.json"),
-        num_runs=1,
+        num_runs=4,
         initial_session_file=str(pathlib.Path(__file__).parent
                                  / "itinerary_seattle_example.json")
     )
