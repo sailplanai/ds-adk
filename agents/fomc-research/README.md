@@ -91,6 +91,7 @@ to implement this workflow.
     ```
 
     Install [Poetry](https://python-poetry.org)
+
     If you have not installed poetry before, you can do so by running:
     ```bash
     pip install poetry
