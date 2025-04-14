@@ -24,7 +24,7 @@ The key features of the Customer Service Agent include:
 
 The agent is built using a multi-modal architecture, combining text and video inputs to provide a rich and interactive experience. It mocks interactions with various tools and services, including a product catalog, inventory management, order processing, and appointment scheduling systems. The agent also utilizes a session management system to maintain context across interactions and personalize the customer experience.
 
-It is important to notice that this agent is not integrated to an actual backend and the behaviour is based on mocked tools. If you would like to implement this agent with actual backend integration you will need to edit [customer_service/tools.py](./customer_service/tools.py)
+It is important to notice that this agent is not integrated to an actual backend and the behaviour is based on mocked tools. If you would like to implement this agent with actual backend integration you will need to edit [customer_service/tools.py](./customer_service/tools/tools.py)
 
 Because the tools are mocked you might notice that some reuqested changes will not be applied. For instance newly added item to cart will not show if later a user asks the agent to list all items.
 
@@ -134,7 +134,7 @@ The agent has access to the following tools:
 
     - Ensure you have a Google Cloud project.
     - Make sure you have the Vertex AI API enabled in your project.
-    - Set the `GOOGLE_GENAI_USE_VERTEXAI`, `GOOGLE_CLOUD_PROJECT`, and `GOOGLE_CLOUD_LOCATION` environment variables. You can set them in your `.env` file (modify and rename .env_sample file to .env) or directly in your shell. Alternatively you can edit [customer_service/config.py](.customer_service/config.py)
+    - Set the `GOOGLE_GENAI_USE_VERTEXAI`, `GOOGLE_CLOUD_PROJECT`, and `GOOGLE_CLOUD_LOCATION` environment variables. You can set them in your `.env` file (modify and rename .env_sample file to .env) or directly in your shell. Alternatively you can edit [customer_service/config.py](./customer_service/config.py)
 
     ```bash
     export GOOGLE_CLOUD_PROJECT=YOUR_ROJECT_NAME_HERE
@@ -229,7 +229,7 @@ Unit tests focus on testing individual units or components of the code in isolat
 
 ## Configuration
 
-You can find further configuration parameters in [customer_service/config.py](.customer_service/config.py). This incudes parameters such as agent name, app name and llm model used by the agent.
+You can find further configuration parameters in [customer_service/config.py](./customer_service/config.py). This incudes parameters such as agent name, app name and llm model used by the agent.
 
 ## Deployment on Google Agent Engine
 
