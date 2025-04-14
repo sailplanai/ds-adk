@@ -25,7 +25,7 @@ _search_agent = Agent(
     description="An agent providing Google-search grounding capability",
     instruction=""",
     Answer the user's question directly using google_search grounding tool; Provide a brief but concise response. 
-    Rather than a detail response, provide the immediate actionable item for a tourist or traveller, in a single sentence.
+    Rather than a detail response, provide the immediate actionable item for a tourist or traveler, in a single sentence.
     Do not ask the user to check or look up information for themselves, that's your role; do your best to be informative.
     """,
     tools=[google_search],
