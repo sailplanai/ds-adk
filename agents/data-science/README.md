@@ -50,7 +50,7 @@ The key features of the Data Science Multi-Agent include:
 
     ```bash
     git clone https://github.com/google/adk-samples.git
-    cd google-adk-samples/agents/data-science
+    cd adk-samples/agents/data-science
     ```
 
 2.  **Install Dependencies with Poetry:**
