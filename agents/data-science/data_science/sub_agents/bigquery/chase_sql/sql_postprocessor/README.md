@@ -17,7 +17,7 @@ have the postprocessor correct errors in the SQL before and after translation.
 
 ### Current Defaults:
 
--   Model: gemini-1.5-flash-002
+-   Model: gemini-2.0-flash-001
 -   Temperature: 0.5
 -   Number of candidates: 1
 -   transpile_to_bigquery: True

@@ -50,7 +50,7 @@ The key features of the Data Science Multi-Agent include:
 
     ```bash
     git clone https://github.com/google/adk-samples.git
-    cd google-adk-samples/agents/data-science
+    cd adk-samples/agents/data-science
     ```
 
 2.  **Install Dependencies with Poetry:**
@@ -68,7 +68,7 @@ The key features of the Data Science Multi-Agent include:
     ```
 
     This activates the virtual environment, allowing you to run commands within the project's environment.
-    Make sure the environment is active. If not, you can also activate it through
+    Make sure the environment is active. If the above command did not activate the environment for you, you can also activate it through
 
      ```bash
     source .venv/bin/activate
@@ -136,6 +136,7 @@ The key features of the Data Science Multi-Agent include:
 
 7.  **Other Environment Variables:**
 
+    *   `NL2SQL_METHOD`: (Optional) Either `BASELINE` or `CHASE`. Sets the method for SQL Generation. Baseline uses Gemini off-the-shelf, whereas CHASE uses [CHASE-SQL](https://arxiv.org/abs/2410.01943)
     *   `CODE_INTERPRETER_EXTENSION_NAME`: (Optional) The full resource name of
         a pre-existing Code Interpreter extension in Vertex AI. If not provided,
         a new extension will be created. (e.g.,
