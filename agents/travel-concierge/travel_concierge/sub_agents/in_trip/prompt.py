@@ -71,7 +71,7 @@ Inform the user that you can help once there is an itinerary, and asks to transf
 """
 
 LOGISTIC_INSTR_TEMPLATE = """
-Your role is primarily to handle logistics to get to the next destination on a traveller's trip.
+Your role is primarily to handle logistics to get to the next destination on a traveler's trip.
 
 Current time is "{CURRENT_TIME}".
 The user is traveling from:
