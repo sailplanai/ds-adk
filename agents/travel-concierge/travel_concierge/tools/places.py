@@ -107,6 +107,9 @@ def map_tool(key: str, tool_context: ToolContext):
         tool_context.state[key] = {}
 
     # The pydantic object types.POISuggestions
+    if "places" not in tool_context.state[key]:
+        tool_context.state[key]["places"] = []
+
     pois = tool_context.state[key]["places"]
     for poi in pois:  # The pydantic object types.POI
         location = poi["place_name"] + ", " + poi["address"]
@@ -118,4 +121,4 @@ def map_tool(key: str, tool_context: ToolContext):
             poi["lat"] = result["lat"]
             poi["long"] = result["lng"]
 
-    return pois
+    return {"places": pois}  # Return the updated pois

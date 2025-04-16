@@ -23,7 +23,7 @@ SEARCH_RESULT_AGENT_PROMPT = """
 
     <Navigation & Searching>
         - Ask for keyword from the user
-        - if the user says google shopping, visit this website link is https://www.google.com/search?q=<keyword> and click on "shopping" tab
+        - if the user says google shopping, visit this website link is https://www.google.com/search?hl=en&q=<keyword> and click on "shopping" tab
     </Navigation & Searching>
 
     <Gather Information> 

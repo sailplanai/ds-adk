@@ -122,7 +122,7 @@ class POI(BaseModel):
         description="Numerical representation of Latitude of the location (e.g., 20.6843)"
     )
     long: str = Field(
-        description="Numerical representation of Latitude of the location (e.g., -88.5678)"
+        description="Numerical representation of Longitude of the location (e.g., -88.5678)"
     )
     review_ratings: str = Field(
         description="Numerical representation of rating (e.g. 4.8 , 3.0 , 1.0 etc)"
@@ -212,15 +212,15 @@ class Itinerary(BaseModel):
 class UserProfile(BaseModel):
     """An example user profile."""
     allergies: list[str] = Field(
-        default=[], description="A list of food allegies to avoid"
+        default=[], description="A list of food allergies to avoid"
     )
     diet_preference: list[str] = Field(
-        default=[], description="Vegtarian, Vegan... etc."
+        default=[], description="Vegetarian, Vegan... etc."
     )
     passport_nationality: str = Field(
         description="Nationality of traveler, e.g. US Citizen"
     )
-    home_address: str = Field(description="Home address of traveller")
+    home_address: str = Field(description="Home address of traveler")
     home_transit_preference: str = Field(
         description="Preferred mode of transport around home, e.g. drive"
     )

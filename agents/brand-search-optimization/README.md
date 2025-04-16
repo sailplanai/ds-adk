@@ -89,8 +89,6 @@ This agent showcases Multi Agent setup with tool calling and web crawling
 
 You have to run the `adk run brand_search_optimization` to make the agent run.
 
-You may also run the web app using
-
 You may also run the web app using `adk web`.
 
 The command `adk web` will start a web server on your machine and print the URL. You may open the URL and interact with the agent in a chatbot interface. The UI is initially blank.
