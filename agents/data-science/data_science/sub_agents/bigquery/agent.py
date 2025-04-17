@@ -35,7 +35,7 @@ def setup_before_agent_call(callback_context: CallbackContext) -> None:
 
 
 database_agent = Agent(
-    model="gemini-2.0-flash-exp",
+    model=os.getenv("BIGQUERY_AGENT_MODEL"),
     name="database_agent",
     instruction=return_instructions_bigquery(),
     tools=[

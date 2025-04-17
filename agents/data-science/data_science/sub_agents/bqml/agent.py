@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """Data Science Agent V2: generate nl2py and use code interpreter to run the code."""
-
+import os
 from google.adk.agents import Agent
 from google.adk.tools import ToolContext
 from google.adk.tools.agent_tool import AgentTool
@@ -85,7 +85,7 @@ async def call_db_agent(
 
 
 root_agent = Agent(
-    model="gemini-2.0-flash-exp",
+    model=os.getenv("BQML_AGENT_MODEL"),
     name="bq_ml_agent",
     instruction=return_instructions_bqml(),
     before_agent_callback=setup_before_agent_call,

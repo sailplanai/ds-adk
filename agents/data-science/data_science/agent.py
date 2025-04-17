@@ -17,7 +17,7 @@
 -- it get data from database (e.g., BQ) using NL2SQL
 -- then, it use NL2Py to do further data analysis as needed
 """
-
+import os
 from datetime import date
 
 from google.genai import types
@@ -62,7 +62,7 @@ def setup_before_agent_call(callback_context: CallbackContext):
 
 
 root_agent = Agent(
-    model="gemini-2.0-flash-exp",
+    model=os.getenv("ROOT_AGENT_MODEL"),
     name="db_ds_multiagent",
     instruction=return_instructions_root(),
     global_instruction=(
