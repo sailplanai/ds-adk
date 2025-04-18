@@ -68,8 +68,8 @@ def return_instructions_root() -> str:
         * **ONLY CALL THE BQML AGENT IF THE USER SPECIFICALLY ASKS FOR BQML / BIGQUERY ML. This can be for any BQML related tasks, like checking models, training, inference, etc.**
         * **DO NOT generate python code, ALWAYS USE call_ds_agent to generate further analysis if needed.**
         * **DO NOT generate SQL code, ALWAYS USE call_db_agent to generate the SQL if needed.**
-        * **IF call_ds_agent is called with valid result, JUST SUMMARIZE ALL RESULTS FROM PREVIOU STEPS USING REPOSNE FORMAT!**
-        * **IF data is available from prevoius call_db_agent and call_ds_agent, YOU CAN DIRECTLY USE call_ds_agent TO DO NEW ANLAYZIE USING THE DATA FROM PREVIOU STEPS**
+        * **IF call_ds_agent is called with valid result, JUST SUMMARIZE ALL RESULTS FROM PREVIOUS STEPS USING RESPONSE FORMAT!**
+        * **IF data is available from prevoius call_db_agent and call_ds_agent, YOU CAN DIRECTLY USE call_ds_agent TO DO NEW ANALYZE USING THE DATA FROM PREVIOUS STEPS**
         * **DO NOT ask the user for project or dataset ID. You have these details in the session context. For BQ ML tasks, just verify if it is okay to proceed with the plan.**
     </TASK>
 
@@ -127,8 +127,8 @@ def return_instructions_root() -> str:
     * **ONLY CALL THE BQML AGENT IF THE USER SPECIFICALLY ASKS FOR BQML / BIGQUERY ML. This can be for any BQML related tasks, like checking models, training, inference, etc.**
     * **DO NOT generate python code, ALWAYS USE call_ds_agent to generate further analysis if needed.**
     * **DO NOT generate SQL code, ALWAYS USE call_db_agent to generate the SQL if needed.**
-    * **IF call_ds_agent is called with valid result, JUST SUMMARIZE ALL RESULTS FROM PREVIOU STEPS USING REPOSNE FORMAT!**
-    * **IF data is available from prevoius call_db_agent and call_ds_agent, YOU CAN DIRECTLY USE call_ds_agent TO DO NEW ANLAYZIE USING THE DATA FROM PREVIOU STEPS, skipping call_intent_understanding and call_db_agent!**
+    * **IF call_ds_agent is called with valid result, JUST SUMMARIZE ALL RESULTS FROM PREVIOUS STEPS USING RESPONSE FORMAT!**
+    * **IF data is available from prevoius call_db_agent and call_ds_agent, YOU CAN DIRECTLY USE call_ds_agent TO DO NEW ANALYZE USING THE DATA FROM PREVIOUS STEPS, skipping call_intent_understanding and call_db_agent!**
     * **DO NOT ask the user for project or dataset ID. You have these details in the session context. For BQ ML tasks, just verify if it is okay to proceed with the plan.**
         """
 
@@ -173,8 +173,8 @@ def return_instructions_root() -> str:
         **Key Reminder:**
         * **Do not fabricate any answers. Rely solely on the provided tools. ALWAYS USE call_intent_understanding FIRST!**
         * **DO NOT generate python code, ALWAYS USE call_ds_agent to generate further analysis if nl_to_python_question is not N/A!**
-        * **IF call_ds_agent is called with valid result, JUST SUMMARIZE ALL RESULTS FROM PREVIOU STEPS USING REPOSNE FORMAT!**
-        * **IF data is available from prevoius call_db_agent and call_ds_agent, YOU CAN DIRECTLY USE call_ds_agent TO DO NEW ANLAYZIE USING THE DATA FROM PREVIOU STEPS, skipping call_intent_understanding and call_db_agent!**
+        * **IF call_ds_agent is called with valid result, JUST SUMMARIZE ALL RESULTS FROM PREVIOUS STEPS USING RESPONSE FORMAT!**
+        * **IF data is available from prevoius call_db_agent and call_ds_agent, YOU CAN DIRECTLY USE call_ds_agent TO DO NEW ANALYZE USING THE DATA FROM PREVIOUS STEPS, skipping call_intent_understanding and call_db_agent!**
         * **Never generate answers directly; For any question,always USING THE GIVEN TOOLS. Start with call_intent_understanding if not sure!**
             """
 
