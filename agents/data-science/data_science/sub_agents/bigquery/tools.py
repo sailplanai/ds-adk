@@ -38,6 +38,7 @@ MAX_NUM_ROWS = 80
 database_settings = None
 bq_client = None
 
+
 def get_bq_client():
     """Get BigQuery client."""
     global bq_client
@@ -189,7 +190,7 @@ The database structure is defined by the following table schemas (possibly with 
     )
 
     response = llm_client.models.generate_content(
-        model="gemini-2.0-flash-exp",
+        model=os.getenv("BASELINE_NL2SQL_MODEL"),
         contents=prompt,
         config={"temperature": 0.1},
     )
