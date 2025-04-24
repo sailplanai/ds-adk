@@ -8,7 +8,7 @@ Each folder in this directory contains a different agent sample.
 
 1.  **Prerequisites:**
 
-    *   "Ensure you have installed and configured the Agent Development Kit (ADK). See the [ADK Quickstart Guide](https://google.github.io/adk-docs/get-started/quickstart/).
+    *   "Ensure you have installed and configured the Agent Development Kit (ADK). See the [ADK Quickstart Guide](https://google.github.io/adk-docs/get-started/quickstart/)."
     *   "Python 3.9+ and [Poetry](https://python-poetry.org/docs/#installation) installed."
     *   "Access to Google Cloud (Vertex AI) and/or a Gemini API Key (depending on the agent - see individual agent READMEs)."
 
@@ -26,7 +26,7 @@ Check out the agent samples below, organized by category:
 
 | Agent Name                                  | Use Case                                                                                                                              | Tag | Interaction Type | Complexity | Agent Type   | Vertical                      |
 | :------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------- | :-: | :--------------- | :--------- | :----------- | :---------------------------- |
-| [Brand Search Optimization](brand-search-optimization) | Enrich product data by analyzing top search results addressing issues like "Null & low recovery" / "Zero Results" searches and identifies gaps in product data.                                 |   Multi-agent, Custom tool, Example store, Fast API, BigQuery connection, Google Search API, Computer use   | Workflow | Easy | Multi Agent | Retail                        |
+| [Brand Search Optimization](brand-search-optimization) | Enrich e-commerce product data by analyzing and comparing top search results. Useful for addressing issues like "Null & low recovery" / "Zero Results" searches and identifies gaps in product data.                                 |   Multi-agent, Custom tool, BigQuery connection, Evaluation, Computer use   | Workflow | Easy | Multi Agent | Retail                        |
 | [Cymbal Home & Garden Customer Service Agent](customer-service) | Customer service, product selection, order management for home improvement, gardening, and related supplies                                |  Custom tool, Async tool, External system calls, Live streaming, Multimodal   | Conversational         | Advanced     | Single Agent       | Retail                        |
 | [Data Science Agent](data-science) | A multi-agent system designed for sophisticated data analysis                                                                          |  Function tool (Python), Agent tool, NL2SQL, Structured data, Database   | Conversational | Advanced | Multi Agent | Horizontal                    |
 | [FOMC Research Agent](fomc-research) | Market event analysis                                                                                                                   |   Video Analysis, Summarization, Report generation  | Workflow | Advanced | Multi Agent | Financial Services            |
