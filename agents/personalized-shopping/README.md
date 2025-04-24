@@ -71,7 +71,7 @@ IMPORTANT HIGHLIGHTS:
 * Then go to the project folder, and run this:
 
     ```bash
-    cd agents/personalized-shopping
+    cd adk-samples/agents/personalized-shopping
     poetry install
     ```
 

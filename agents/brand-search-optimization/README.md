@@ -74,7 +74,7 @@ This agent showcases Multi Agent setup with tool calling and web crawling
         `````bash
         # Clone this repository.
         git clone https://github.com/google/adk-samples.git
-        cd agents/brand-search-optimization
+        cd adk-samples/agents/brand-search-optimization
 
         # Run This script
         # 1. Creates and activates a new virtual env
