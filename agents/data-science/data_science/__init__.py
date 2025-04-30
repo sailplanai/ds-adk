@@ -12,6 +12,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
+
+default_env_vars = {
+    "GOOGLE_GENAI_USE_VERTEXAI": "1",
+    "GOOGLE_CLOUD_PROJECT": "",
+    "GOOGLE_CLOUD_LOCATION": "us-central1",
+    "BQ_PROJECT_ID": "",
+    "BQ_DATASET_ID": "forecasting_sticker_sales",
+    "BQML_RAG_CORPUS_NAME": "",
+    "NL2SQL_METHOD": "BASELINE",
+    "ROOT_AGENT_MODEL": "gemini-2.0-flash-001",
+    "ANALYTICS_AGENT_MODEL": "gemini-2.0-flash-001",
+    "BIGQUERY_AGENT_MODEL": "gemini-2.0-flash-001",
+    "BASELINE_NL2SQL_MODEL": "gemini-2.0-flash-001",
+    "CHASE_NL2SQL_MODEL": "gemini-2.0-flash-001",
+    "BQML_AGENT_MODEL": "gemini-2.0-flash-001",
+}
+
+for key, default_value in default_env_vars.items():
+    if os.environ.get(key) is None:
+        os.environ[key] = default_value
+        print(f"  Set '{key}'='{default_value}'")
+
+
 from . import agent
 
 __all__ = ["agent"]
