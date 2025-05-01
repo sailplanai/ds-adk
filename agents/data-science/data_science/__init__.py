@@ -16,12 +16,13 @@ import os
 
 default_env_vars = {
     "GOOGLE_GENAI_USE_VERTEXAI": "1",
-    "GOOGLE_CLOUD_PROJECT": "",
+    "GOOGLE_CLOUD_PROJECT": "YOUR_PROJECT_NAME",
     "GOOGLE_CLOUD_LOCATION": "us-central1",
-    "BQ_PROJECT_ID": "",
+    "BQ_PROJECT_ID": "YOUR_PROJECT_NAME",
     "BQ_DATASET_ID": "forecasting_sticker_sales",
     "BQML_RAG_CORPUS_NAME": "",
     "NL2SQL_METHOD": "BASELINE",
+    "CODE_INTERPRETER_EXTENSION_NAME": "",
     "ROOT_AGENT_MODEL": "gemini-2.0-flash-001",
     "ANALYTICS_AGENT_MODEL": "gemini-2.0-flash-001",
     "BIGQUERY_AGENT_MODEL": "gemini-2.0-flash-001",
