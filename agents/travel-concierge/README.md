@@ -139,8 +139,8 @@ Expand on the "Key Components" from above.
     #
     # Uncomment one of the two, or create your own.
     #
-    # TRAVEL_CONCIERGE_SCENARIO=eval/itinerary_seattle_example.json
-    TRAVEL_CONCIERGE_SCENARIO=eval/itinerary_empty_default.json
+    # TRAVEL_CONCIERGE_SCENARIO=travel_concierge/profiles/itinerary_seattle_example.json
+    TRAVEL_CONCIERGE_SCENARIO=travel_concierge/profiles/itinerary_empty_default.json
     ```
 
 4. Authenticate your GCloud account.
@@ -450,9 +450,9 @@ In an environment where the events are passed from the server running the agents
 The following are some ideas how one can reuse the concierge and make it your own.
 
 ### Load a premade itinerary to demo the in-trip flow
-- By default, a user profile and an empty itinerary is loaded from `eval/itinerary_empty_default.json`.
-- To specify a different file to load, such as the Seattle example `eval/itinerary_seattle_example.json`:
-  - Set the environmental variable `TRAVEL_CONCIERGE_SCENARIO` to `eval/itinerary_seattle_example.json` in the `.env`.
+- By default, a user profile and an empty itinerary is loaded from `travel_concierge/profiles/itinerary_empty_default.json`.
+- To specify a different file to load, such as the Seattle example `travel_concierge/profiles/itinerary_seattle_example.json`:
+  - Set the environmental variable `TRAVEL_CONCIERGE_SCENARIO` to `travel_concierge/profiles/itinerary_seattle_example.json` in the `.env`.
   - Then restart `adk web` and load the travel concierge.
 - When you start interacting with the agent, the state will be loaded. 
 - You can see the loaded user profile and itinerary when you select "State" in the GUI.
