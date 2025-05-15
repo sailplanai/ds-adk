@@ -37,7 +37,7 @@ The agent’s default configuration allows you to simulate interactions with a f
 
 The key features of the personalized-shopping agent include:
 *  **Environment:** The agent can interact in a e-commerce web environment with 1.18M of products.
-*  **Memory:** The agent maintain a conversational memory with all the previous-turns information in its context window.
+*  **Memory:** The agent maintains a conversational memory with all the previous-turns information in its context window.
 *  **Tools:**
 
     _Search_: The agent has access to a search-retrieval engine, where it can perform key-word search for the related products.
@@ -241,3 +241,12 @@ For customization, you can add your own product data and place the annotations i
 
 ## Acknowledgement
 We are grateful to the developers of [princeton-nlp/WebShop](https://github.com/princeton-nlp/WebShop) for their simulated environment. This agent incorporates modified code from their project.
+
+
+## Disclaimer
+
+This agent sample is provided for illustrative purposes only and is not intended for production use. It serves as a basic example of an agent and a foundational starting point for individuals or teams to develop their own agents.
+
+This sample has not been rigorously tested, may contain bugs or limitations, and does not include features or optimizations typically required for a production environment (e.g., robust error handling, security measures, scalability, performance considerations, comprehensive logging, or advanced configuration options).
+
+Users are solely responsible for any further development, testing, security hardening, and deployment of agents based on this sample. We recommend thorough review, testing, and the implementation of appropriate safeguards before using any derived agent in a live or critical system.

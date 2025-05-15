@@ -39,8 +39,8 @@ Expand on the "Key Components" from above.
     * `planning_agent` - Given a destination, start date, and duration, the planning agent helps the user select flights, seats and a hotel (mocked), then generate an itinerary containing the activities.
     * `booking_agent` - Given an itinerary, the booking agent will help process those items in the itinerary that requires payment.
     * `pre_trip_agent` - Intended to be invoked regularly before the trip starts; This agent fetches relevant trip information given its origin, destination, and the user's nationality.
-    * `in_trip_agent`- Intended to be invoked frequently during the trip. This agent provide three services: monitor any changes in bookings (mocked), acts as a informative guide, and provides transit assistance.
-    * `post_trip_agent` - In this example, the post trip agent asks the traveler about their experience and attempts to extract and store their various preferences base on the trip, so that the information could be useful in future interactions.
+    * `in_trip_agent`- Intended to be invoked frequently during the trip. This agent provide three services: monitor any changes in bookings (mocked), acts as an informative guide, and provides transit assistance.
+    * `post_trip_agent` - In this example, the post trip agent asks the traveler about their experience and attempts to extract and store their various preferences based on the trip, so that the information could be useful in future interactions.
 *   **Tools:**
     * `map_tool` - retrieves lat/long; geocoding an address with the Google Map API.
     * `memorize` - a function to memorize information from the dialog that are important to trip planning and to provide in-trip support.
@@ -139,8 +139,8 @@ Expand on the "Key Components" from above.
     #
     # Uncomment one of the two, or create your own.
     #
-    # TRAVEL_CONCIERGE_SCENARIO=eval/itinerary_seattle_example.json
-    TRAVEL_CONCIERGE_SCENARIO=eval/itinerary_empty_default.json
+    # TRAVEL_CONCIERGE_SCENARIO=travel_concierge/profiles/itinerary_seattle_example.json
+    TRAVEL_CONCIERGE_SCENARIO=travel_concierge/profiles/itinerary_empty_default.json
     ```
 
 4. Authenticate your GCloud account.
@@ -450,9 +450,9 @@ In an environment where the events are passed from the server running the agents
 The following are some ideas how one can reuse the concierge and make it your own.
 
 ### Load a premade itinerary to demo the in-trip flow
-- By default, a user profile and an empty itinerary is loaded from `eval/itinerary_empty_default.json`.
-- To specify a different file to load, such as the Seattle example `eval/itinerary_seattle_example.json`:
-  - Set the environmental variable `TRAVEL_CONCIERGE_SCENARIO` to `eval/itinerary_seattle_example.json` in the `.env`.
+- By default, a user profile and an empty itinerary is loaded from `travel_concierge/profiles/itinerary_empty_default.json`.
+- To specify a different file to load, such as the Seattle example `travel_concierge/profiles/itinerary_seattle_example.json`:
+  - Set the environmental variable `TRAVEL_CONCIERGE_SCENARIO` to `travel_concierge/profiles/itinerary_seattle_example.json` in the `.env`.
   - Then restart `adk web` and load the travel concierge.
 - When you start interacting with the agent, the state will be loaded. 
 - You can see the loaded user profile and itinerary when you select "State" in the GUI.
@@ -494,3 +494,12 @@ The following occasionally happens while interaction with the agent:
 - Similarly, if you have waited for a while and the agent has stopped in the middle of executing a series of actions, ask the agent "what's next" to nudge it forward.
 
 These happens occasionally, it is likely due to variations in JSON responses that requires more rigorous experimentation on prompts and generation parameters to attain more stable results. Within an application, these retries can also be built into the application as part of exception handling.
+
+
+## Disclaimer
+
+This agent sample is provided for illustrative purposes only and is not intended for production use. It serves as a basic example of an agent and a foundational starting point for individuals or teams to develop their own agents.
+
+This sample has not been rigorously tested, may contain bugs or limitations, and does not include features or optimizations typically required for a production environment (e.g., robust error handling, security measures, scalability, performance considerations, comprehensive logging, or advanced configuration options).
+
+Users are solely responsible for any further development, testing, security hardening, and deployment of agents based on this sample. We recommend thorough review, testing, and the implementation of appropriate safeguards before using any derived agent in a live or critical system.

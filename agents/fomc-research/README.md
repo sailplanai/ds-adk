@@ -236,7 +236,7 @@ The last sequence of digits is the AgentEngine resource ID.
 
 Once you have successfully deployed your agent, you can interact with it
 using the `test_deployment.py` script in the `deployment` directory. Store the
-agent's resource ID in an enviroment variable and run the following command:
+agent's resource ID in an environment variable and run the following command:
 ```bash
 export RESOURCE_ID=...
 export USER_ID=<any string>
@@ -298,3 +298,20 @@ restart the UI and the agent will reset.
 Sometimes the agent will stop mid-workflow, after completing one of the
 intermediate steps. When this happens, it frequently works just to tell the agent
 to continue, or another instruction to continue its operation.
+
+
+## Disclaimer
+
+This agent sample is provided for illustrative purposes only and is not intended for production use. It serves as a basic example of an agent and a foundational starting point for individuals or teams to develop their own agents.
+
+This sample has not been rigorously tested, may contain bugs or limitations, and does not include features or optimizations typically required for a production environment (e.g., robust error handling, security measures, scalability, performance considerations, comprehensive logging, or advanced configuration options).
+
+Users are solely responsible for any further development, testing, security hardening, and deployment of agents based on this sample. We recommend thorough review, testing, and the implementation of appropriate safeguards before using any derived agent in a live or critical system.
+
+## Disclaimer
+
+This agent sample is provided for illustrative purposes only and is not intended for production use. It serves as a basic example of an agent and a foundational starting point for individuals or teams to develop their own agents.
+
+This sample has not been rigorously tested, may contain bugs or limitations, and does not include features or optimizations typically required for a production environment (e.g., robust error handling, security measures, scalability, performance considerations, comprehensive logging, or advanced configuration options).
+
+Users are solely responsible for any further development, testing, security hardening, and deployment of agents based on this sample. We recommend thorough review, testing, and the implementation of appropriate safeguards before using any derived agent in a live or critical system.

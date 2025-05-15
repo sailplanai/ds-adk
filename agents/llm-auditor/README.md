@@ -89,6 +89,16 @@ to implement this workflow.
         gcloud auth application-default set-quota-project $GOOGLE_CLOUD_PROJECT
         ```
 
+    *   If you'd prefer to run the agent locally without using Google Vertex AI or Cloud dependencies, you may set the following 
+        environment variables in your shell, or in a `.env` file instead.
+
+        ```bash
+        export GOOGLE_GENAI_USE_VERTEXAI=false
+        export GOOGLE_API_KEY=PASTE_YOUR_ACTUAL_API_KEY_HERE
+        ```
+
+        Refer to the [Google Gemini API Quickstart](https://ai.google.dev/gemini-api/docs/quickstart?lang=python#make-first-request) for instructions on obtaining a Google Gemini API key.
+
 ## Running the Agent
 
 **Using `adk`**
@@ -115,7 +125,7 @@ blank. Here are some example requests you may ask the LLM Auditor to verify:
 *   `Q: Why the blueberries are blue? A: Because blueberries have pigments on
     their skin.`
 
-Sampled responses of these requrests are shown below in the [Example
+Sampled responses of these requests are shown below in the [Example
 Interaction](#example-interaction) section.
 
 **Programmatic Access**
@@ -143,7 +153,7 @@ for event in runner.run(
         print(part.text)
 ```
 
-You may aslo utilize `google.adk.Runner` to have fine-grained control on
+You may also utilize `google.adk.Runner` to have fine-grained control on
 interaction sessions and more, or wrap the agent in a
 `vertexai.preview.reasoning_engines.AdkApp`.
 
@@ -272,7 +282,7 @@ python3 -m pytest eval
 `tests` runs the agent on a sample request, and makes sure that every component
 is functional. `eval` is a demonstration of how to evaluate the agent, using the
 `AgentEvaluator` in ADK. It sends a couple requests to the agent and expects
-that the agent's responses match a pre-defined response reasonablly well.
+that the agent's responses match a pre-defined response reasonably well.
 
 
 ## Deployment
@@ -347,3 +357,11 @@ The LLM Auditor can be customized to better suit your requirements. For example:
     iteratively. Instead of a single pass, the response can be repeatedly
     evaluated and rewritten by the agents until predefined quality thresholds
     are achieved.
+
+## Disclaimer
+
+This agent sample is provided for illustrative purposes only and is not intended for production use. It serves as a basic example of an agent and a foundational starting point for individuals or teams to develop their own agents.
+
+This sample has not been rigorously tested, may contain bugs or limitations, and does not include features or optimizations typically required for a production environment (e.g., robust error handling, security measures, scalability, performance considerations, comprehensive logging, or advanced configuration options).
+
+Users are solely responsible for any further development, testing, security hardening, and deployment of agents based on this sample. We recommend thorough review, testing, and the implementation of appropriate safeguards before using any derived agent in a live or critical system.
