@@ -16,7 +16,7 @@ pydantic-settings = "^2.8.1"
 tabulate = "^0.9.0"
 google-auth = "^2.36.0"
 requests = "^2.32.3"
-google-adk = ">=0.0.1"
+google-adk = {extras = ["extensions"], version = ">=0.0.1"}
 google-cloud-aiplatform = {extras = ["adk", "agent-engines"], version = "^1.88.0"}
 llama-index = "^0.12"
 
