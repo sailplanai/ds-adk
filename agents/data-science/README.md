@@ -255,9 +255,9 @@ To deploy the agent to Google Agent Engine, first follow
 [these steps](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/set-up)
 to set up your Google Cloud project for Agent Engine.
 
-You also need to give BigQuery User and BigQuery Data Viewer permissions to the
-Reasoning Engine Service Agent. Run the following commands to grant the required
-permissions:
+You also need to give BigQuery User, BigQuery Data Viewer, and Vertex AI User
+permissions to the Reasoning Engine Service Agent. Run the following commands to
+grant the required permissions:
 
 ```bash
 export RE_SA="service-${GOOGLE_CLOUD_PROJECT_NUMBER}@gcp-sa-aiplatform-re.iam.gserviceaccount.com"
@@ -269,6 +269,10 @@ gcloud projects add-iam-policy-binding ${GOOGLE_CLOUD_PROJECT} \
     --member="serviceAccount:${RE_SA}" \
     --condition=None \
     --role="roles/bigquery.dataViewer"
+gcloud projects add-iam-policy-binding ${GOOGLE_CLOUD_PROJECT} \
+    --member="serviceAccount:${RE_SA}" \
+    --condition=None \
+    --role="roles/aiplatform.user"
 ```
 
 Next, you need to create a `.whl` file for your agent. From the `data-science`
@@ -284,7 +288,8 @@ This will create a file named `data_science-0.1-py3-none-any.whl` in the
 Then run the below command. This will create a staging bucket in your GCP project and deploy the agent to Vertex AI Agent Engine:
 
 ```bash
-python3 deployment/deploy.py --create
+cd deployment/
+python3 deploy.py --create
 ```
 
 When this command returns, if it succeeds it will print an AgentEngine resource
@@ -373,3 +378,12 @@ python3 deployment/deploy.py --delete --resource_id=RESOURCE_ID
 *   If you see errors in the SQL generated, try the following:
     - including clear descriptions in your tables and columns help boost performance
     - if your database is large, try setting up a RAG pipeline for schema linking by storing your table schema details in a vector store
+
+
+## Disclaimer
+
+This agent sample is provided for illustrative purposes only and is not intended for production use. It serves as a basic example of an agent and a foundational starting point for individuals or teams to develop their own agents.
+
+This sample has not been rigorously tested, may contain bugs or limitations, and does not include features or optimizations typically required for a production environment (e.g., robust error handling, security measures, scalability, performance considerations, comprehensive logging, or advanced configuration options).
+
+Users are solely responsible for any further development, testing, security hardening, and deployment of agents based on this sample. We recommend thorough review, testing, and the implementation of appropriate safeguards before using any derived agent in a live or critical system.
