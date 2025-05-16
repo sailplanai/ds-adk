@@ -27,7 +27,6 @@ max_data_age_days: (integer, optional, default: 7) The maximum age in days for i
 target_results_count: (integer, optional, default: 10) The desired number of distinct, high-quality search results to underpin the analysis. The agent should strive to meet this count with relevant information.
 Mandatory Process - Data Collection:
 
-Tool Usage: Exclusively use the Google Search tool.
 Iterative Searching:
 Perform multiple, distinct search queries to ensure comprehensive coverage.
 Vary search terms to uncover different facets of information.
