@@ -31,7 +31,7 @@ from google.genai.types import Blob, Part
 logger = logging.getLogger(__name__)
 
 
-def download_file_from_url(
+async def download_file_from_url(
     url: str, output_filename: str, tool_context: ToolContext
 ) -> str:
     """Downloads a file from a URL and stores it in an artifact.
@@ -54,32 +54,34 @@ def download_file_from_url(
             "Content-Type", mimetypes.guess_type(url)
         )
         artifact = Part(inline_data=Blob(data=file_bytes, mime_type=mime_type))
-        tool_context.save_artifact(filename=output_filename, artifact=artifact)
+        await tool_context.save_artifact(filename=output_filename, artifact=artifact)
         logger.info("Downloaded %s to artifact %s", url, output_filename)
         return output_filename
 
     except requests.exceptions.RequestException as e:
         logger.error("Error downloading file from URL: %s", e)
-        return None
+        return ""
 
 
-def extract_text_from_pdf_artifact(
+async def extract_text_from_pdf_artifact(
     pdf_path: str, tool_context: ToolContext
 ) -> str:
     """Extracts text from a PDF file stored in an artifact"""
-    pdf_artifact = tool_context.load_artifact(pdf_path)
     try:
-        with io.BytesIO(
-            base64.b64decode(pdf_artifact.inline_data.data)
-        ) as pdf_file_obj:
-            pdf_text = ""
-            with pdfplumber.open(pdf_file_obj) as pdf:
-                for page in pdf.pages:
-                    pdf_text += page.extract_text()
+        pdf_artifact = await tool_context.load_artifact(pdf_path)
+        if pdf_artifact and pdf_artifact.inline_data:
+            logger.info("Extracting text from PDF artifact %s", pdf_path)
+            with io.BytesIO(
+                base64.b64decode(pdf_artifact.inline_data.data)
+            ) as pdf_file_obj:
+                pdf_text = ""
+                with pdfplumber.open(pdf_file_obj) as pdf:
+                    for page in pdf.pages:
+                        pdf_text += page.extract_text()
             return pdf_text
-    except binascii.Error as e:
-        logger.error("Error decoding PDF: %s", e)
-        return None
+    except ValueError as e:
+        logger.error("Error loading PDF artifact: %s", e)
+        return ""
 
 
 def create_html_redline(text1: str, text2: str) -> str:
@@ -104,7 +106,7 @@ def create_html_redline(text1: str, text2: str) -> str:
     return html_output
 
 
-def save_html_to_artifact(
+async def save_html_to_artifact(
     html_content: str, output_filename: str, tool_context: ToolContext
 ) -> str:
     """Saves HTML content to an artifact in UTF-8 encoding.
@@ -117,7 +119,7 @@ def save_html_to_artifact(
       The name of the artifact.
     """
     artifact = Part(text=html_content)
-    tool_context.save_artifact(filename=output_filename, artifact=artifact)
+    await tool_context.save_artifact(filename=output_filename, artifact=artifact)
     logger.info("HTML content successfully saved to %s", output_filename)
     return output_filename
 

@@ -24,7 +24,7 @@ from ..shared_libraries import file_utils
 logger = logging.getLogger(__name__)
 
 
-def compare_statements_tool(tool_context: ToolContext) -> dict[str, str]:
+async def compare_statements_tool(tool_context: ToolContext) -> dict[str, str]:
     """Compares requested and previous statements and generates HTML redline.
 
     Args:
@@ -47,10 +47,10 @@ def compare_statements_tool(tool_context: ToolContext) -> dict[str, str]:
         prev_statement_url = fed_hostname + prev_statement_url
 
     # Download PDFs from URLs to artifacts
-    reqd_pdf_path = file_utils.download_file_from_url(
+    reqd_pdf_path = await file_utils.download_file_from_url(
         reqd_statement_url, "curr.pdf", tool_context
     )
-    prev_pdf_path = file_utils.download_file_from_url(
+    prev_pdf_path = await file_utils.download_file_from_url(
         prev_statement_url, "prev.pdf", tool_context
     )
 
@@ -61,10 +61,10 @@ def compare_statements_tool(tool_context: ToolContext) -> dict[str, str]:
             "error_message": "Failed to download statement files",
         }
 
-    reqd_pdf_text = file_utils.extract_text_from_pdf_artifact(
+    reqd_pdf_text = await file_utils.extract_text_from_pdf_artifact(
         reqd_pdf_path, tool_context
     )
-    prev_pdf_text = file_utils.extract_text_from_pdf_artifact(
+    prev_pdf_text = await file_utils.extract_text_from_pdf_artifact(
         prev_pdf_path, tool_context
     )
 
@@ -75,17 +75,17 @@ def compare_statements_tool(tool_context: ToolContext) -> dict[str, str]:
             "error_message": "Failed to extract text from PDFs",
         }
 
-    tool_context.save_artifact(
+    await tool_context.save_artifact(
         filename="requested_statement_fulltext",
         artifact=Part(text=reqd_pdf_text),
     )
-    tool_context.save_artifact(
+    await tool_context.save_artifact(
         filename="previous_statement_fulltext",
         artifact=Part(text=prev_pdf_text),
     )
 
     redline_html = file_utils.create_html_redline(reqd_pdf_text, prev_pdf_text)
-    file_utils.save_html_to_artifact(
+    await file_utils.save_html_to_artifact(
         redline_html, "statement_redline", tool_context
     )
 
