@@ -714,7 +714,7 @@ python3 -m pytest eval
 `tests` runs the agent on a sample request, and makes sure that every component
 is functional. `eval` is a demonstration of how to evaluate the agent, using the
 `AgentEvaluator` in ADK. It sends a couple requests to the agent and expects
-that the agent's responses match a pre-defined response reasonablly well.
+that the agent's responses match a pre-defined response reasonably well.
 
 
 ## Deployment
