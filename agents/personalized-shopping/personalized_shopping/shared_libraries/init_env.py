@@ -14,6 +14,13 @@
 
 import gym
 
+gym.envs.registration.register(
+    id="WebAgentTextEnv-v0",
+    entry_point=(
+        "personalized_shopping.shared_libraries.web_agent_site.envs.web_agent_text_env:WebAgentTextEnv"
+    ),
+)
+
 
 def init_env(num_products):
     env = gym.make(
