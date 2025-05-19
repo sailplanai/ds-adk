@@ -18,7 +18,7 @@ from google.adk import Agent
 
 from . import prompt
 
-MODEL = "gemini-2.5-pro-preview-03-25"
+MODEL = "gemini-2.5-pro-preview-05-06"
 
 execution_analyst_agent = Agent(
     model=MODEL,
