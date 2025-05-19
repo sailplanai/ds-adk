@@ -111,7 +111,7 @@ The agent has access to the following tools:
 
     ```bash
     git clone https://github.com/google/adk-samples.git
-    cd adk-samples/agents/customer-service
+    cd adk-samples/python/agents/customer-service
     ```
 
     For the rest of this tutorial **ensure you remain in the `agents/customer-service` directory**.

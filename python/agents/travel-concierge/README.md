@@ -102,7 +102,7 @@ Expand on the "Key Components" from above.
 
     ```bash
     git clone https://github.com/google/adk-samples.git
-    cd adk-samples/agents/travel-concierge
+    cd adk-samples/python/agents/travel-concierge
     ```
     NOTE: From here on, all command-line instructions shall be executed under the directory  `travel-concierge/` unless otherwise stated.
 

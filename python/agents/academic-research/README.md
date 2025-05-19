@@ -54,7 +54,7 @@ to implement this workflow.
     ```bash
     # Clone this repository.
     git clone https://github.com/google/adk-samples.git
-    cd adk-samples/agents/academic-research
+    cd adk-samples/python/agents/academic-research
     # Install the package and dependencies.
     poetry install
     ```

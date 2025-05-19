@@ -87,7 +87,7 @@ to implement this workflow.
     Clone this repository and change to the repo directory:
     ```
     git clone https://github.com/google/adk-samples.git
-    cd adk-samples/agents/fomc-research
+    cd adk-samples/python/agents/fomc-research
     ```
 
     Install [Poetry](https://python-poetry.org)

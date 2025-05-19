@@ -46,7 +46,7 @@ This diagram outlines the agent's workflow, designed to provide informed and con
 
     ```bash
     git clone https://github.com/google/adk-samples.git
-    cd adk-samples/agents/RAG
+    cd adk-samples/python/agents/RAG
     ```
 
 2.  **Install Dependencies with Poetry:**

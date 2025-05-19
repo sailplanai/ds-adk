@@ -63,7 +63,7 @@ to implement this workflow.
     ```bash
     # Clone this repository.
     git clone https://github.com/google/adk-samples.git
-    cd adk-samples/agents/llm-auditor
+    cd adk-samples/python/agents/llm-auditor
     # Install the package and dependencies.
     poetry install
     ```

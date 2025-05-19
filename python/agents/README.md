@@ -1,6 +1,6 @@
 # Sample Agents
 
-This folder contains agent samples for the [Agent Development Kit](https://github.com/google/adk-python) (ADK). 
+This folder contains Python agent samples for the [Agent Development Kit](https://github.com/google/adk-python) (ADK).
 
 Each folder in this directory contains a different agent sample.
 
@@ -34,7 +34,7 @@ Check out the agent samples below, organized by category:
 | [Personalized Shopping](personalized-shopping) | Product Recommendations                                                                                                               | E-commerce, Personalized agent, Shopping assistant, Single-agent, Product recommendation, Product discovery, Chatbot    | Conversational         | Easy        | Single Agent     | E-commerce                    |
 | [Vertex AI Retrieval Agent](RAG) | RAG Powered Agent / Answering questions related to documents uploaded to Vertex AI RAG Engine, providing informative responses with citations to source materials.                              |  RAG engine   | Workflow              | Intermediate        | Single Agent       | Horizontal                    |
 | [Travel Concierge](travel-concierge) | Travel Concierge, Digital Tasks Assistant                                                                                               |   Function tool (Python), Custom tool, Agent tool, Input and output schema, Updatable context, Dynamic instructions  | Conversational | Advanced | Multi Agent | Travel                        |
-                                                                                        
+
 
 ## Using the Agents in this Repository
 
@@ -47,7 +47,7 @@ Here's a general workflow you can expect:
 1.  **Choose an Agent:** Select an agent from the table above that aligns with your interests or use case.
 2.  **Navigate to the Agent Directory:** Open your terminal and change into the agent's main directory:
     ```bash
-    cd agents/<agent-name> 
+    cd agents/<agent-name>
     # Example: cd agents/fomc-research
     ```
 3.  **Review the Agent's README:** **This is the most crucial step.** Open the `README.md` file within this directory. It will contain:
@@ -72,8 +72,8 @@ Here's a general workflow you can expect:
     *   **CLI:** Often involves running `adk run .` from within the agent's *core code* directory (e.g., `agents/fomc-research/fomc_research/`).
         ```bash
         # Example (check agent's README for exact path)
-        cd agents/fomc-research/fomc_research/ 
-        adk run . 
+        cd agents/fomc-research/fomc_research/
+        adk run .
         ```
     *   **ADK Dev UI:** Often involves running `adk web .` from the agent's *main* directory (e.g., `agents/fomc-research/`).
         ```bash
@@ -110,7 +110,7 @@ Each agent displayed here is organized as follows:
 │   │   │   │   ├── tools/                  # tools folder for the subagent
 │   │   │   │   ├── agent.py                # core logic of the sub agent
 │   │   │   │   └── prompt.py               # prompt of the subagent
-│   │   │   └── ...                         # More sub-agents    
+│   │   │   └── ...                         # More sub-agents
 │   │   ├── __init__.py                     # Initializes the agent
 │   │   ├── tools/                          # Contains the code for tools used by the router agent
 │   │   ├── agent.py                        # Contains the core logic of the agent
@@ -130,7 +130,7 @@ The root of each agent resides in its own directory under `agents/`. For example
 
 #### Directory Breakdown
 
-1.  **`agent_name/` (Core Agent Code)**: 
+1.  **`agent_name/` (Core Agent Code)**:
     *   This directory contains the core logic of the agent.
     *   **`shared_libraries/`**: (Optional) Contains code that is shared among multiple sub-agents.
     *   **`sub_agents/`**: Contains the definitions and logic for sub-agents.
@@ -142,7 +142,7 @@ The root of each agent resides in its own directory under `agents/`. For example
     *   **`tools/`**: Contains any custom tools used by the main agent.
     *   **`agent.py`**: Defines the main agent's behavior, including its sub-agents, model, tools, and instructions.
     *   **`prompt.py`**: Contains the prompts used to guide the main agent's behavior.
-    
+
     Note that the initial folder name is with "-" between words whereas the core logic is stored in the folder with the same agent name but with "_" between words (e.g., `llm_auditor`). This is due to the project structure imposed by poetry.
 
 2.  **`deployment/`**
