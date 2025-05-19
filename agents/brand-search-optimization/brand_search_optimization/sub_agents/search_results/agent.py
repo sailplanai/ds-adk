@@ -13,21 +13,19 @@
 # limitations under the License.
 
 import time
-from PIL import Image
+import warnings
 
 import selenium
+from google.adk.agents.llm_agent import Agent
+from google.adk.tools.load_artifacts_tool import load_artifacts_tool
+from google.adk.tools.tool_context import ToolContext
+from google.genai import types
+from PIL import Image
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
-from google.adk.agents.llm_agent import Agent
-from google.adk.tools.tool_context import ToolContext
-from google.adk.tools.load_artifacts_tool import load_artifacts_tool
-from google.genai import types
-
-from . import prompt
 from ...shared_libraries import constants
-
-import warnings
+from . import prompt
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -47,7 +45,7 @@ def go_to_url(url: str) -> str:
     return f"Navigated to URL: {url}"
 
 
-def take_screenshot(tool_context: ToolContext) -> dict:
+async def take_screenshot(tool_context: ToolContext) -> dict:
     """Takes a screenshot and saves it with the given filename. called 'load artifacts' after to load the image"""
     timestamp = time.strftime("%Y%m%d-%H%M%S")
     filename = f"screenshot_{timestamp}.png"
@@ -56,7 +54,7 @@ def take_screenshot(tool_context: ToolContext) -> dict:
 
     image = Image.open(filename)
 
-    tool_context.save_artifact(
+    await tool_context.save_artifact(
         filename,
         types.Part.from_bytes(data=image.tobytes(), mime_type="image/png"),
     )

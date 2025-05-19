@@ -18,7 +18,7 @@ from google.genai import types
 from ..shared_libraries.init_env import webshop_env
 
 
-def click(button_name: str, tool_context: ToolContext) -> str:
+async def click(button_name: str, tool_context: ToolContext) -> str:
     """Click the button with the given name.
 
     Args:
@@ -47,8 +47,13 @@ def click(button_name: str, tool_context: ToolContext) -> str:
         webshop_env.server.assigned_instruction_text = "Back to Search"
 
     # Show artifact in the UI.
-    tool_context.save_artifact(
-        "html",
-        types.Part.from_uri(file_uri=webshop_env.state["html"], mime_type="text/html"),
-    )
+    try:
+        await tool_context.save_artifact(
+            "html",
+            types.Part.from_uri(
+                file_uri=webshop_env.state["html"], mime_type="text/html"
+            ),
+        )
+    except ValueError as e:
+        print(f"Error saving artifact: {e}")
     return ob
