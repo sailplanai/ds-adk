@@ -1,6 +1,7 @@
 # Sample Agents
 
-This folder contains Python agent samples for the [Agent Development Kit](https://github.com/google/adk-python) (ADK).
+This folder contains sample agent samples for
+[Python Agent Development Kit](https://github.com/google/adk-python) (Python ADK).
 
 Each folder in this directory contains a different agent sample.
 
@@ -8,16 +9,21 @@ Each folder in this directory contains a different agent sample.
 
 1.  **Prerequisites:**
 
-    *   "Ensure you have installed and configured the Agent Development Kit (ADK). See the [ADK Quickstart Guide](https://google.github.io/adk-docs/get-started/quickstart/)."
-    *   "Python 3.9+ and [Poetry](https://python-poetry.org/docs/#installation) installed."
-    *   "Access to Google Cloud (Vertex AI) and/or a Gemini API Key (depending on the agent - see individual agent READMEs)."
+    *   Python Agent Development Kit. See the
+        [ADK Quickstart Guide](https://google.github.io/adk-docs/get-started/quickstart/).
+    *   Python 3.9+ and [Poetry](https://python-poetry.org/docs/#installation).
+    *   Access to Google Cloud (Vertex AI) and/or a Gemini API Key (depending on
+        the agent - see individual agent READMEs).
 
 2.  **Running a Sample Agent:**
 
-    *   "Navigate to the specific agent's directory (e.g., `cd agents/llm-auditor`)."
-    *   "Copy the `.env.example` file to `.env` and fill in the required environment variables (API keys, project IDs, etc.). See the agent's specific README for details on required variables."
-    *   "Install dependencies using Poetry: `poetry install`"
-    *   "Follow the instructions in the agent's `README.md` to run it (e.g., using `adk run .` or `adk web`)."
+    *   Navigate to the specific agent's directory (e.g., `cd agents/llm-auditor`).
+    *    Copy the `.env.example` file to `.env` and fill in the required
+         environment variables (API keys, project IDs, etc.). See the agent's
+         specific README for details on required variables.
+    *   Install dependencies using Poetry: `poetry install`
+    *   Follow the instructions in the agent's `README.md` to run it (e.g.,
+        using `adk run .` or `adk web`).
 
 
 ## Agent Categories
@@ -26,11 +32,14 @@ Check out the agent samples below, organized by category:
 
 | Agent Name                                  | Use Case                                                                                                                              | Tag | Interaction Type | Complexity | Agent Type   | Vertical                      |
 | :------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------- | :-: | :--------------- | :--------- | :----------- | :---------------------------- |
+| [Academic Research](academic-research) | Assists researchers in identifying recent publications and discovering emerging research areas. |   Multi-agent, Custom tool, Evaluation | Workflow | Easy | Multi Agent | Academia                        |
 | [Brand Search Optimization](brand-search-optimization) | Enrich e-commerce product data by analyzing and comparing top search results. Useful for addressing issues like "Null & low recovery" / "Zero Results" searches and identifies gaps in product data.                                 |   Multi-agent, Custom tool, BigQuery connection, Evaluation, Computer use   | Workflow | Easy | Multi Agent | Retail                        |
 | [Cymbal Home & Garden Customer Service Agent](customer-service) | Customer service, product selection, order management for home improvement, gardening, and related supplies                                |  Custom tool, Async tool, External system calls, Live streaming, Multimodal   | Conversational         | Advanced     | Single Agent       | Retail                        |
 | [Data Science Agent](data-science) | A multi-agent system designed for sophisticated data analysis                                                                          |  Function tool (Python), Agent tool, NL2SQL, Structured data, Database   | Conversational | Advanced | Multi Agent | Horizontal                    |
-| [FOMC Research Agent](fomc-research) | Market event analysis                                                                                                                   |   Video Analysis, Summarization, Report generation  | Workflow | Advanced | Multi Agent | Financial Services            |
+| [Financial Advisor](financial-advisor) |  Assists human financial advisors by providing educational content about topics related to finance and investments.  |   Risk Analysis, Strategy Generation, Summarization, Report generation  | Workflow | Easy | Multi Agent | Financial Services            |
+| [FOMC Research Agent](fomc-research) | Market event analysis                                                                                                                   |   Summarization, Report generation  | Workflow | Advanced | Multi Agent | Financial Services            |
 | [LLM Auditor](llm-auditor)                   | Chatbot Response Verification, Content Auditing                                                                                         |   Gemini with Google Search, Multi-agent  | Workflow         | Easy       | Multi Agent  | Horizontal                    |
+| [Marketing Agency](marketing-agency)                   | Streamlines new website and product launches. Identifies optimal DNS domains, generates entire websites, develops marketing strategies, and designs brand assets. | Content generation, Website creation, Code generation, Strategy development  | Workflow         | Easy       | Multi Agent  | Horizontal                    |
 | [Personalized Shopping](personalized-shopping) | Product Recommendations                                                                                                               | E-commerce, Personalized agent, Shopping assistant, Single-agent, Product recommendation, Product discovery, Chatbot    | Conversational         | Easy        | Single Agent     | E-commerce                    |
 | [Vertex AI Retrieval Agent](RAG) | RAG Powered Agent / Answering questions related to documents uploaded to Vertex AI RAG Engine, providing informative responses with citations to source materials.                              |  RAG engine   | Workflow              | Intermediate        | Single Agent       | Horizontal                    |
 | [Travel Concierge](travel-concierge) | Travel Concierge, Digital Tasks Assistant                                                                                               |   Function tool (Python), Custom tool, Agent tool, Input and output schema, Updatable context, Dynamic instructions  | Conversational | Advanced | Multi Agent | Travel                        |
@@ -45,12 +54,14 @@ This section provides general guidance on how to run, test, evaluate, and potent
 Here's a general workflow you can expect:
 
 1.  **Choose an Agent:** Select an agent from the table above that aligns with your interests or use case.
-2.  **Navigate to the Agent Directory:** Open your terminal and change into the agent's main directory:
+2.  **Navigate to the Agent Directory:** Open your terminal and change into the
+    agent's main directory from the main repo directory:
     ```bash
-    cd agents/<agent-name>
-    # Example: cd agents/fomc-research
+    cd python/agents/<agent-name>
+    # Example: cd python/agents/fomc-research
     ```
-3.  **Review the Agent's README:** **This is the most crucial step.** Open the `README.md` file within this directory. It will contain:
+3.  **Review the Agent's README:** **This is the most crucial step.** Open the
+    `README.md` file within this directory. It will contain:
     *   A detailed overview of the agent's purpose and architecture.
     *   Specific prerequisites (e.g., API keys, cloud services, database setup).
     *   Step-by-step setup and installation instructions.
@@ -60,22 +71,35 @@ Here's a general workflow you can expect:
     *   Steps for deployment (if applicable).
 
 4.  **Setup and Configuration:**
-    *   **Prerequisites:** Ensure you've met the general prerequisites listed in the main "Getting Started" section *and* any specific prerequisites mentioned in the agent's README.
-    *   **Dependencies:** Install the agent's specific Python dependencies using Poetry (this command is usually run from the agent's main directory):
+    *   **Prerequisites:** Ensure you've met the general prerequisites listed in
+        the main "Getting Started" section *and* any specific prerequisites
+        mentioned in the agent's README.
+    *   **Dependencies:** Install the agent's specific Python dependencies using
+        Poetry (this command is usually run from the agent's main directory):
         ```bash
         poetry install
         ```
-    *   **Environment Variables:** Most agents require configuration via environment variables. Copy the `.env.example` file to `.env` within the agent's directory and populate it with your specific values (API keys, project IDs, etc.). Consult the agent's README for details on required variables. You may need to load these variables into your shell environment (e.g., using `source .env` or `set -o allexport; . .env; set +o allexport` in bash).
+    *   **Environment Variables:** Most agents require configuration via
+        environment variables. Copy the `.env.example` file to `.env` within the
+        agent's directory and populate it with your specific values (API keys,
+        project IDs, etc.). Consult the agent's README for details on required
+        variables. You may need to load these variables into your shell
+        environment (e.g., using `source .env` or `set -o allexport; . .env; set
+        +o allexport` in bash).
 
 5.  **Running the Agent Locally:**
-    *   Agents can typically be run locally for testing and interaction using the ADK CLI or ADK Dev UI. The specific command might vary slightly (e.g., the exact directory to run from), so check the agent's README.
-    *   **CLI:** Often involves running `adk run .` from within the agent's *core code* directory (e.g., `agents/fomc-research/fomc_research/`).
+    *   Agents can typically be run locally for testing and interaction using
+        the ADK CLI or ADK Dev UI. The specific command might vary slightly
+        (e.g., the exact directory to run from), so check the agent's README.
+        **CLI:** Often involves running `adk run .` from within the agent's
+        *core code* directory (e.g., `agents/fomc-research/fomc_research/`).
         ```bash
         # Example (check agent's README for exact path)
         cd agents/fomc-research/fomc_research/
         adk run .
         ```
-    *   **ADK Dev UI:** Often involves running `adk web .` from the agent's *main* directory (e.g., `agents/fomc-research/`).
+    *   **ADK Dev UI:** Often involves running `adk web .` from the agent's
+        *main* directory (e.g., `agents/fomc-research/`).
         ```bash
         # Example (check agent's README for exact path)
         cd agents/fomc-research/
@@ -85,17 +109,25 @@ Here's a general workflow you can expect:
 
 6.  **Evaluating the Agent:**
     *   Many agents include an `eval/` directory containing scripts and data to assess performance.
-    *   The agent's README will explain how to run these evaluations (e.g., `python eval/test_eval.py`). This helps verify the agent's effectiveness on specific tasks.
+    *   The agent's README will explain how to run these evaluations (e.g.,
+        `python eval/test_eval.py`). This helps verify the agent's effectiveness
+        on specific tasks.
 
 7.  **Testing the Agent Components:**
     *   A `tests/` directory often contains unit or integration tests (e.g., for custom tools).
     *   These ensure the individual code components function correctly.
-    *   The agent's README may provide instructions on how to run these tests, often using a framework like `pytest`.
+    *   The agent's README may provide instructions on how to run these tests,
+        often using a framework like `pytest`.
 
 8.  **Deploying the Agent:**
-    *   Some agents are designed for deployment, typically to [Vertex AI Agent Engine](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview).
-    *   The `deployment/` directory contains the necessary scripts (like `deploy.py`) and configuration files.
-    *   Deployment usually requires specific Google Cloud setup (Project ID, enabled APIs, permissions). The agent's README and the scripts within the `deployment/` folder provide detailed instructions, similar to the example shown in the `fomc-research` agent's documentation.
+    *   Some agents are designed for deployment, typically to
+        [Vertex AI Agent Engine](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview).
+    *   The `deployment/` directory contains the necessary scripts (like
+        `deploy.py`) and configuration files.
+    *   Deployment usually requires specific Google Cloud setup (Project ID,
+        enabled APIs, permissions). The agent's README and the scripts within
+        the `deployment/` folder provide detailed instructions, similar to the
+        example shown in the `fomc-research` agent's documentation.
 
 By following the specific instructions in each agent's `README.md`, you can effectively set up, run, evaluate, test, and potentially deploy these diverse examples.
 
@@ -147,13 +179,15 @@ The root of each agent resides in its own directory under `agents/`. For example
 
 2.  **`deployment/`**
 
-    *   Contains scripts and files necessary for deploying the agent to a platform like Vertex AI Agent Engine.
+    *   Contains scripts and files necessary for deploying the agent to a
+        platform like Vertex AI Agent Engine.
     *   The `deploy.py` script is often found here, handling the deployment process.
 
 3.  **`eval/`**
 
     *   Contains data and scripts for evaluating the agent's performance.
-    *   Test data (e.g., `.test.json` files) and evaluation scripts (e.g., `test_eval.py`) are typically located here.
+    *   Test data (e.g., `.test.json` files) and evaluation scripts (e.g.,
+        `test_eval.py`) are typically located here.
 
 4.  **`tests/`**
 
