@@ -14,7 +14,7 @@ bots to complex multi-agent workflows.
 Follow these steps to set up and run the sample agents:
 
 1.  **Prerequisites:**
-    *   **Install the ADK Samples:** Ensure you have Python Agent
+    *   **Install Python ADK:** Ensure you have Python Agent
         Development Kit installed and configured. Follow the Python instructions in the
         [ADK Installation Guide](https://google.github.io/adk-docs/get-started/installation/#python).
     *   **Set Up Environment Variables:** Each agent example relies on a `.env`
