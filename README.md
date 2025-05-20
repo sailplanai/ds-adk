@@ -9,6 +9,8 @@ Welcome to the ADK Sample Agents repository! This collection provides ready-to-u
 ## ✨ Getting Started 
 This repo contains ADK sample agents for both **Python** and **Java.** Navigate to the **[Python](python/)** and **[Java](java/)** subfolders to see language-specific setup instructions, and learn more about the available sample agents. 
 
+To learn more, check out the [ADK Documentation](https://google.github.io/adk-docs/), and the GitHub repositories for [ADK Python](https://github.com/google/adk-python) and [ADK Java](https://github.com/google/adk-java). 
+
 ## 🌳 Repository Structure
 ```bash
 ├── java
@@ -36,7 +38,7 @@ This repo contains ADK sample agents for both **Python** and **Java.** Navigate 
 
 ## ℹ️ Getting help
 
-If you have any questions or if you found any problems with this repository, please report through [GitHub issues]( https://github.com/google/adk-samples/issues).
+If you have any questions or if you found any problems with this repository, please report through [GitHub issues](https://github.com/google/adk-samples/issues).
 
 ## 🤝 Contributing
 
