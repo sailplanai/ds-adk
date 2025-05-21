@@ -52,7 +52,7 @@ gcloud services enable aiplatform.googleapis.com
 
 For this sample you must also provision Apigee and API hub in your project, to serve the APIs that act as the tools for the agent.
 
-The API assets and additional prerequisite instructions are available in the Apigee Samples repo here: [Auto Insurance Agent APIs](https://github.com/ssvaidyanathan/apigee-samples/tree/adk_auto_insurance_agent/adk-auto-insurance-agent). 
+The API assets and additional prerequisite instructions are available in the Apigee Samples repo here: [Auto Insurance Agent APIs](https://github.com/GoogleCloudPlatform/apigee-samples/tree/main/adk-auto-insurance-agent). 
 
 If you already have Apigee and API hub provisioned in your project, you can simply  deploy the assets by following the quickstart below.
 
@@ -60,7 +60,7 @@ If you already have Apigee and API hub provisioned in your project, you can simp
 
 Follow the instructions in this GCP Cloud Shell tutorial.
 
-[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.png)](https://ssh.cloud.google.com/cloudshell/open?cloudshell_git_repo=https://github.com/ssvaidyanathan/apigee-samples&cloudshell_git_branch=adk_auto_insurance_agent&cloudshell_workspace=.&cloudshell_tutorial=adk-auto-insurance-agent/docs/cloudshell-tutorial.md)
+[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.png)](https://ssh.cloud.google.com/cloudshell/open?cloudshell_git_repo=https://github.com/GoogleCloudPlatform/apigee-samples&cloudshell_git_branch=main&cloudshell_workspace=.&cloudshell_tutorial=adk-auto-insurance-agent/docs/cloudshell-tutorial.md)
 
 
 ## Agent Setup
