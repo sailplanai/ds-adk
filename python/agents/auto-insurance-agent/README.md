@@ -107,6 +107,22 @@ You can run the agent using the `adk` command in your terminal:
     ```
     Then select the `auto-insurance-agent` from the dropdown.
 
+## Deploying the Agent
+
+### To Cloud Run
+
+To deploy the agent to Cloud Run, execute the following command
+
+```sh
+adk deploy cloud_run \
+--project=$GOOGLE_CLOUD_PROJECT \
+--region=$GOOGLE_CLOUD_LOCATION \
+--service_name=$SERVICE_NAME \
+--app_name=$APP_NAME \
+--with_ui \
+$AGENT_PATH
+```
+
 ## Example Interaction
 
 Here's a quick example of how a user might interact with the agent:
