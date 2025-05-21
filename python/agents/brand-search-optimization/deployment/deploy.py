@@ -32,7 +32,7 @@ flags.DEFINE_bool("delete", False, "Delete an existing agent.")
 flags.mark_bool_flags_as_mutual_exclusive(["create", "delete"])
 
 
-def create() -> None:
+def create(env_vars: dict) -> None:
     adk_app = AdkApp(
         agent=root_agent,
         enable_tracing=True,
@@ -43,9 +43,9 @@ def create() -> None:
     remote_agent = agent_engines.create(
         adk_app,
         requirements=[
-            "google-adk",
-            "google-cloud-aiplatform[agent_engines] @ git+https://github.com/googleapis/python-aiplatform.git@copybara_738852226",
-            "pydantic==2.10.6",
+            "google-adk>=1.0.0,<2.0.0",
+            "google-cloud-aiplatform[agent_engines]>=1.93.0",
+            "pydantic",
             "requests",
             "python-dotenv",
             "google-genai",
@@ -56,6 +56,7 @@ def create() -> None:
             "pillow",
         ],
         extra_packages=extra_packages,
+        env_vars=env_vars,
     )
     print(f"Created remote agent: {remote_agent.resource_name}")
 
@@ -70,6 +71,7 @@ def main(argv: list[str]) -> None:
     project_id = FLAGS.project_id if FLAGS.project_id else constants.PROJECT
     location = FLAGS.location if FLAGS.location else constants.LOCATION
     bucket = FLAGS.bucket if FLAGS.bucket else constants.STAGING_BUCKET
+    env_vars = {}
 
     print(f"PROJECT: {project_id}")
     print(f"LOCATION: {location}")
@@ -87,6 +89,8 @@ def main(argv: list[str]) -> None:
         )
         return
 
+    env_vars["DISABLE_WEB_DRIVER"] = "1"
+
     vertexai.init(
         project=project_id,
         location=location,
@@ -94,7 +98,7 @@ def main(argv: list[str]) -> None:
     )
 
     if FLAGS.create:
-        create()
+        create(env_vars)
     elif FLAGS.delete:
         if not FLAGS.resource_id:
             print("resource_id is required for delete")
