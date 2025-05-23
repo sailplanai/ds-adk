@@ -35,8 +35,13 @@ The tools are provided by custom APIs. The specifications are imported to [API h
 
 ### Prerequisites
 
-- Python 3.11+
-- pip
+- Python 3.12+
+-   Poetry for dependency management and packaging
+    -   See the official
+        [Poetry website](https://python-poetry.org/docs/) for more information. To install Poetry run:
+    ```bash
+    pip install poetry
+    ```
 - Google Cloud Project
 
 Once you have created your project, [install the Google Cloud SDK](https://cloud.google.com/sdk/docs/install). Then run the following command to authenticate:
@@ -56,7 +61,7 @@ The API assets and additional prerequisite instructions are available in the Api
 
 If you already have Apigee and API hub provisioned in your project, you can simply  deploy the assets by following the quickstart below.
 
-## (QuickStart) Deploy the API assets using Cloud Shell
+### Quickstart: Deploy the API assets using Cloud Shell
 
 Follow the instructions in this GCP Cloud Shell tutorial.
 
@@ -74,10 +79,10 @@ Follow the instructions in this GCP Cloud Shell tutorial.
 
     For the rest of this tutorial **ensure you remain in the `python/agents/auto-insurance-agent` directory**.
 
-2.  Install dependencies:
+2.  Install the dependencies:
 
     ```bash
-    pip install
+    poetry install
     ```
 
 3.  Configure settings:
@@ -88,11 +93,12 @@ Follow the instructions in this GCP Cloud Shell tutorial.
     export GOOGLE_GENAI_USE_VERTEXAI=1
     export GOOGLE_CLOUD_PROJECT=my-project
     export GOOGLE_CLOUD_LOCATION=my-region
+    export GOOGLE_CLOUD_STORAGE_BUCKET=my-storage-bucket  # Only required for deployment on Agent Engine
     ```
 
-## Running the Agent
+## Running the Agent Locally
 
-You can run the agent using the `adk` command in your terminal:
+You can run the agent locally using the `adk` command in your terminal:
 
 1.  To run the agent from the CLI:
 
@@ -107,21 +113,53 @@ You can run the agent using the `adk` command in your terminal:
     ```
     Then select the `auto-insurance-agent` from the dropdown.
 
-## Deploying the Agent
+## Deploying the Agent Remotely
 
 ### To Cloud Run
 
-To deploy the agent to Cloud Run, execute the following command
+To deploy the agent to Cloud Run, execute the following command:
 
 ```sh
 adk deploy cloud_run \
 --project=$GOOGLE_CLOUD_PROJECT \
 --region=$GOOGLE_CLOUD_LOCATION \
---service_name=$SERVICE_NAME \
---app_name=$APP_NAME \
+--service_name="auto-insurance-agent-service" \
+--app_name="auto-insurance-agent" \
 --with_ui \
-$AGENT_PATH
+./auto_insurance_agent
 ```
+
+Once the deployment is complete, you can access the ADK web UI using the service URL. For example: `https://auto-insurance-agent-service-58543899102.us-west1.run.app/dev-ui`
+
+For more information on deploying to Cloud Run, see [here](https://google.github.io/adk-docs/deploy/cloud-run/).
+
+### To Agent Engine
+
+The agent can also be deployed to [Vertex AI Agent Engine](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview) using the following
+commands:
+
+```bash
+poetry install --with deployment
+python3 deployment/deploy.py
+```
+
+When the deployment finishes, it will output the resource ID of the remote agent deployment, for example:
+```
+Created remote agent: projects/<PROJECT_NUMBER>/locations/<PROJECT_LOCATION>/reasoningEngines/<AGENT_ENGINE_ID>
+```
+
+For more information on deploying to Agent Engine, see [here](https://google.github.io/adk-docs/deploy/agent-engine/#install-vertex-ai-sdk).
+
+To test the remote agent, first set the following variable using the ID returned above e.g.
+```bash
+export AGENT_ENGINE_ID=projects/<PROJECT_NUMBER>/locations/<PROJECT_LOCATION>/reasoningEngines/<AGENT_ENGINE_ID>
+```
+then run:
+```bash
+python3 deployment/test_deployment.py
+```
+
+You may then interact with the deployed agent from the shell. You can type `quit` at any point to exit.
 
 ## Example Interaction
 
