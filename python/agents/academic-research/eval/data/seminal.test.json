@@ -1,7 +1,59 @@
-[
-  {
-    "query": "who are you",
-    "expected_tool_use": [],
-    "reference": "Hello! I am an AI Research Assistant. My purpose is to help you explore the academic landscape evolving from a seminal paper you provide. I can analyze the paper, find recent works that cite it, and suggest potential future research directions based on these findings. How can I help you today? Do you have a seminal paper you'd like to discuss? Please provide its Title/Authors, DOI, or URL."
-  }
-]
+{
+  "eval_set_id": "evalsetd9352a",
+  "name": "evalsetd9352a",
+  "description": null,
+  "eval_cases": [
+    {
+      "eval_id": "casebefe2a",
+      "conversation": [
+        {
+          "invocation_id": "e-510d7b05-63d4-474e-a2f4-2b2cf20265ff",
+          "user_content": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "Hello. What can you do for me?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "file_data": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "Hello! I'm an AI Research Assistant. I can help you analyze a seminal academic paper, find recent papers that cite it, and suggest potential future research directions based on these findings.\n\nTo get started, please provide the seminal paper you would like to analyze as a PDF."
+              }
+            ],
+            "role": null
+          },
+          "intermediate_data": {
+            "tool_uses": [],
+            "intermediate_responses": []
+          },
+          "creation_timestamp": 1747672164.245441
+        }
+      ],
+      "session_input": {
+        "app_name": "academic_research",
+        "user_id": "user",
+        "state": {}
+      },
+      "creation_timestamp": 1747672183.2256472
+    }
+  ],
+  "creation_timestamp": 1747672173.945378
+}
