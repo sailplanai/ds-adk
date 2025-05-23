@@ -33,5 +33,5 @@ async def test_all():
     await AgentEvaluator.evaluate(
         "llm_auditor",
         str(pathlib.Path(__file__).parent / "data"),
-        num_runs=1,
+        num_runs=5,
     )
