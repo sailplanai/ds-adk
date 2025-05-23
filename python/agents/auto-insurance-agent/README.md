@@ -115,24 +115,6 @@ You can run the agent locally using the `adk` command in your terminal:
 
 ## Deploying the Agent Remotely
 
-### To Cloud Run
-
-To deploy the agent to Cloud Run, execute the following command:
-
-```sh
-adk deploy cloud_run \
---project=$GOOGLE_CLOUD_PROJECT \
---region=$GOOGLE_CLOUD_LOCATION \
---service_name="auto-insurance-agent-service" \
---app_name="auto-insurance-agent" \
---with_ui \
-./auto_insurance_agent
-```
-
-Once the deployment is complete, you can access the ADK web UI using the service URL. For example: `https://auto-insurance-agent-service-58543899102.us-west1.run.app/dev-ui`
-
-For more information on deploying to Cloud Run, see [here](https://google.github.io/adk-docs/deploy/cloud-run/).
-
 ### To Agent Engine
 
 The agent can also be deployed to [Vertex AI Agent Engine](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview) using the following
