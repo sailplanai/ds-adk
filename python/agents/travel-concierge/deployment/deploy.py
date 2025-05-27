@@ -14,11 +14,16 @@
 
 """Deployment script for Travel Concierge."""
 
+import asyncio
 import os
 
 from absl import app, flags
 from dotenv import load_dotenv
+
 from travel_concierge.agent import root_agent
+
+from google.adk.sessions import VertexAiSessionService
+
 import vertexai
 from vertexai import agent_engines
 from vertexai.preview.reasoning_engines import AdkApp
@@ -51,12 +56,14 @@ def create(env_vars: dict[str, str]) -> None:
         env_vars=env_vars,
     )
 
-    remote_agent = agent_engines.create(
+    remote_agent = agent_engines.create(  
         app,
+        display_name="Travel-Concierge-ADK",
+        description="An Example AgentEngine Deployment",                    
         requirements=[
-            "google-adk (>=0.0.2)",
-            "google-cloud-aiplatform[agent_engines] (>=1.88.0,<=1.90.0)",
-            "google-genai (>=1.5.0,<2.0.0)",
+            "google-adk (==1.0.0)",
+            "google-cloud-aiplatform[agent_engines] (==1.93.1)",
+            "google-genai (==1.16.1)",
             "pydantic (>=2.10.6,<3.0.0)",
             "absl-py (>=2.2.1,<3.0.0)",
             "pydantic (>=2.10.6,<3.0.0)",
@@ -75,16 +82,21 @@ def delete(resource_id: str) -> None:
     print(f"Deleted remote agent: {resource_id}")
 
 
-def send_message(resource_id: str, message: str) -> None:
+def send_message(session_service: VertexAiSessionService, resource_id: str, message: str) -> None:
     """Send a message to the deployed agent."""
+
+    session = asyncio.run(session_service.create_session(
+            app_name=resource_id,
+            user_id="traveler0115"
+        )
+    )
+
     remote_agent = agent_engines.get(resource_id)
-    session = remote_agent.create_session(
-        user_id="traveler0115"
-    )  # Optionally can provide initial states: state=initial_state
+
     print(f"Trying remote agent: {resource_id}")
     for event in remote_agent.stream_query(
         user_id="traveler0115",
-        session_id=session["id"],
+        session_id=session.id,
         message=message,
     ):
         print(event)
@@ -154,7 +166,8 @@ def main(argv: list[str]) -> None:
         if not FLAGS.resource_id:
             print("resource_id is required for quicktest")
             return
-        send_message(FLAGS.resource_id, "Looking for inspirations around the Americas")
+        session_service = VertexAiSessionService(project_id, location)
+        send_message(session_service, FLAGS.resource_id, "Looking for inspirations around the Americas")
     else:
         print("Unknown command")
 

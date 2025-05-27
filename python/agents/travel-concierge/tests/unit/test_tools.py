@@ -42,7 +42,7 @@ class TestAgents(unittest.TestCase):
     def setUp(self):
         """Set up for test methods."""
         super().setUp()
-        self.session = session_service.create_session(
+        self.session = session_service.create_session_sync(
             app_name="Travel_Concierge",
             user_id="traveler0115",
         )
@@ -74,7 +74,7 @@ class TestAgents(unittest.TestCase):
         }
         result = map_tool(key="poi", tool_context=self.tool_context)
         print(result)
-        self.assertIn("place_id", result[0])
+        self.assertIn("place_id", result["places"][0])
         self.assertEqual(
             self.tool_context.state["poi"]["places"][0]["place_id"],
             "ChIJVVVViV-abZERJxqgpA43EDo",
