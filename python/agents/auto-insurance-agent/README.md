@@ -42,7 +42,10 @@ The tools are provided by custom APIs. The specifications are imported to [API h
     ```bash
     pip install poetry
     ```
-- Google Cloud Project
+- Google Cloud Project with the following roles assigned
+  - Apigee Organization Admin
+  - Secret Manager Admin
+  - Storage Object User
 
 Once you have created your project, [install the Google Cloud SDK](https://cloud.google.com/sdk/docs/install). Then run the following command to authenticate:
 ```bash
