@@ -45,7 +45,8 @@ The tools are provided by custom APIs. The specifications are imported to [API h
 - Google Cloud Project with the following roles assigned
   - Apigee Organization Admin
   - Secret Manager Admin
-  - Storage Object User
+  - Storage Admin
+  - Service Usage Consumer
 
 Once you have created your project, [install the Google Cloud SDK](https://cloud.google.com/sdk/docs/install). Then run the following command to authenticate:
 ```bash
