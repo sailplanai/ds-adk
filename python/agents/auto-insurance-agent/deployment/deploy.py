@@ -53,8 +53,8 @@ def main(argv: list[str]) -> None:
     remote_agent = agent_engines.create(
         app,
         requirements=[
-            "google-adk>=1.0.0,<2.0.0",
-            "google-cloud-aiplatform[adk,agent_engines]",
+            "google-adk (==0.5.0)",
+            "google-cloud-aiplatform[adk,agent_engines] (==1.94.0)",
             "google-cloud-secret-manager"
         ]
     )

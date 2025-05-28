@@ -47,6 +47,7 @@ The tools are provided by custom APIs. The specifications are imported to [API h
   - Secret Manager Admin
   - Storage Admin
   - Service Usage Consumer
+  - Logs Viewer
 
 Once you have created your project, [install the Google Cloud SDK](https://cloud.google.com/sdk/docs/install). Then run the following command to authenticate:
 ```bash
