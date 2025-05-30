@@ -4,11 +4,7 @@ The Software Bug Assistant is a sample agent designed to help IT Support and Sof
 
 This README contains instructions for local and Google Cloud deployment. 
 
-<img src="deployment/images/architecture.svg" alt="Architecture">
-
-**Jump to**:
-- [💻 Run Locally](#run-locally)
-- [☁️ Deploy to Google Cloud](#deploy-to-google-cloud)
+<img src="deployment/images/architecture.svg" width="75%" alt="Architecture">
 
 ## Agent Details
 
@@ -17,10 +13,10 @@ The key features of the Software Bug Assistant Agent include:
 | Feature | Description |
 | --- | --- |
 | **Interaction Type** | Conversational |
-| **Complexity**       | Medium |
-| **Agent Type**       | Multi Agent |
+| **Complexity**       | Intermediate |
+| **Agent Type**       | Single Agent |
 | **Components**       | Tools, Database, RAG, Google Search |
-| **Vertical**         | IT Software |
+| **Vertical**         | Horizontal / IT Support |
 
 ## Setup and Installation
 
@@ -97,9 +93,15 @@ curl -O --output-dir deployment/mcp-toolbox https://storage.googleapis.com/genai
 chmod +x deployment/mcp-toolbox/toolbox
 ```
 
-## Run Locally 
+**Jump to**:
+- [💻 Run Locally](#run-locally)
+- [☁️ Deploy to Google Cloud](#deploy-to-google-cloud)
 
-### Before you begin 
+## 💻 Run Locally 
+
+### Before you begin
+
+Install PostgreSQL:
 
 - [PostgreSQL - local instance and psql command-line tool](https://www.postgresql.org/download/)
 
