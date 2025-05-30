@@ -53,6 +53,20 @@ There are two different ways to call Gemini models:
 > If you plan on deploying to Cloud Run, you may want to use Vertex AI.
 
 <details open>
+<summary>Gemini API Key</summary> 
+
+Get an API Key from Google AI Studio: https://aistudio.google.com/apikey
+
+Create a `.env` file by running the following (replace `<your_api_key_here>` with your API key):
+
+```sh
+echo "GOOGLE_API_KEY=<your_api_key_here>" >> .env \
+&& echo "GOOGLE_GENAI_USE_VERTEXAI=FALSE" >> .env
+```
+
+</details>
+
+<details>
 <summary>Vertex AI</summary>
 
 To use Vertex AI, you will need to [create a Google Cloud project](https://developers.google.com/workspace/guides/create-project) and [enable Vertex AI](https://cloud.google.com/vertex-ai/docs/start/cloud-environment).
@@ -71,19 +85,6 @@ Create a `.env` file by running the following (replace `<your_project_id>` with 
 echo "GOOGLE_GENAI_USE_VERTEXAI=TRUE" >> .env \
 && echo "GOOGLE_CLOUD_PROJECT=<your_project_id>" >> .env \
 && echo "GOOGLE_CLOUD_LOCATION=us-central1" >> .env
-```
-
-</details>
-<details>
-<summary>Gemini API Key</summary> 
-
-Get an API Key from Google AI Studio: https://aistudio.google.com/apikey
-
-Create a `.env` file by running the following (replace `<your_api_key_here>` with your API key):
-
-```sh
-echo "GOOGLE_API_KEY=<your_api_key_here>" >> .env \
-&& echo "GOOGLE_GENAI_USE_VERTEXAI=FALSE" >> .env
 ```
 
 </details>
@@ -119,7 +120,7 @@ psql -U postgres
 
 Then, initialize the database and `tickets` table: 
 
-```bash
+```SQL
 CREATE DATABASE tickets-db;
 \c tickets-db;
 CREATE TABLE tickets (
@@ -170,7 +171,7 @@ INSERT INTO tickets (title, description, assignee, priority, status) VALUES
 
 ### 3 - Run the MCP Toolbox for Databases Server. 
 
-MCP Toolbox for Databases](https://googleapis.github.io/genai-toolbox) is an open-source [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) server for databases including PostgreSQL. It allows you to define "tools" against your database, with matching SQL queries, effectively enabling agent "function-calling" for your database. 
+[MCP Toolbox for Databases](https://googleapis.github.io/genai-toolbox) is an open-source [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) server for databases including PostgreSQL. It allows you to define "tools" against your database, with matching SQL queries, effectively enabling agent "function-calling" for your database. 
 
 First, [download the MCP toolbox](https://googleapis.github.io/genai-toolbox/getting-started/local_quickstart/) binary if not already installed.
 
@@ -224,9 +225,10 @@ You should see a JSON response with the list of tools specified in `tools.yaml`.
           "description": "The title of the new ticket.",
           "authSources": []
         },
-        ...
+        // ...
       ],
     }
+  }
 }
 ```
 
@@ -272,7 +274,7 @@ These instructions walk through the process of deploying the Software Bug Assist
 ### Before you begin 
 
 - A [Google Cloud project](https://cloud.google.com/resource-manager/docs/creating-managing-projects) with billing enabled. 
-- `gcloud` CLI ([Installation instructions](https://cloud.google.com/sdk/docs/install))`
+- `gcloud` CLI ([Installation instructions](https://cloud.google.com/sdk/docs/install))
 
 ### 1 - Authenticate the Google Cloud CLI, and enable Google Cloud APIs. 
 
