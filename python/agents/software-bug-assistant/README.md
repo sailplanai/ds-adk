@@ -96,6 +96,10 @@ echo "GOOGLE_GENAI_USE_VERTEXAI=TRUE" >> .env \
 
 </details>
 
+
+There is an example `.env` file located at [.env.example](.env.example) if you would like to
+verify your `.env` was set up correctly.
+
 Source the `.env` file into your environment:
 
 ```bash
