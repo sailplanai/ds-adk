@@ -96,6 +96,12 @@ echo "GOOGLE_GENAI_USE_VERTEXAI=TRUE" >> .env \
 
 </details>
 
+Source the `.env` file into your environment:
+
+```bash
+set -o allexport && source .env && set +o allexport
+```
+
 3. Download [MCP Toolbox for Databases](https://github.com/googleapis/genai-toolbox)
 
 ```bash
@@ -278,13 +284,15 @@ Here are some example requests you may ask the agent:
 
 ---------
 
-## Deploy to Google Cloud 
+## ☁️ Deploy to Google Cloud 
 
 These instructions walk through the process of deploying the Software Bug Assistant agent to Google Cloud, including Cloud Run and Cloud SQL (PostgreSQL). This setup also adds RAG capabilities to the tickets database, using the [google_ml_integration](https://cloud.google.com/blog/products/ai-machine-learning/google-ml-intergration-extension-for-cloud-sql) vector plugin for Cloud SQL, and the `text-embeddings-005` model from Vertex AI.
 
 ![](deployment/images/google-cloud-architecture.png)
 
 ### Before you begin 
+
+Deploying to Google Cloud requires:
 
 - A [Google Cloud project](https://cloud.google.com/resource-manager/docs/creating-managing-projects) with billing enabled. 
 - `gcloud` CLI ([Installation instructions](https://cloud.google.com/sdk/docs/install))
@@ -533,9 +541,14 @@ gcloud builds submit --region=us-central1 --tag us-central1-docker.pkg.dev/$PROJ
 
 ### 12 - Deploy the agent to Cloud Run 
 
-```bash
-export GOOGLE_API_KEY="<your_ai_studio_key>"
-```
+
+> [!NOTE]    
+> 
+> If you are using Vertex AI instead of AI Studio for Gemini calls, you will need to replace `GOOGLE_API_KEY` with `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION`, and `GOOGLE_GENAI_USE_VERTEXAI=TRUE` in the last line of the below `gcloud run deploy` command.
+> 
+> ```bash
+> --set-env-vars=GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=us-central1,GOOGLE_GENAI_USE_VERTEXAI=TRUE,MCP_TOOLBOX_URL=$MCP_TOOLBOX_URL
+> ```
 
 ```bash
 gcloud run deploy software-bug-assistant \
