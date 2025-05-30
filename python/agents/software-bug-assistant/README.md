@@ -4,7 +4,7 @@ The Software Bug Assistant is a sample agent designed to help IT Support and Sof
 
 This README contains instructions for local and Google Cloud deployment. 
 
-<img src="deployment/images/architecture.svg" width="75%" alt="Architecture">
+<img src="deployment/images/architecture.svg" width="60%" alt="Architecture">
 
 ## Agent Details
 
