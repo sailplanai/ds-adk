@@ -140,8 +140,8 @@ psql -U postgres
 Then, initialize the database and `tickets` table: 
 
 ```SQL
-CREATE DATABASE tickets-db;
-\c tickets-db;
+CREATE DATABASE ticketsdb;
+\c ticketsdb;
 CREATE TABLE tickets (
     ticket_id SERIAL PRIMARY KEY,             -- PostgreSQL's auto-incrementing integer type (SERIAL is equivalent to INT AUTO_INCREMENT)
     title VARCHAR(255) NOT NULL,              -- A concise summary or title of the bug/issue.
@@ -202,7 +202,7 @@ Then, open the `deployment/mcp-toolbox/tools.yaml` file. This is a prebuilt conf
 **Important:** Update the first lines of `tools.yaml` to point to your local Postgres instance, for example: 
 
 ```yaml
-  my-local-postgres-source:
+  postgresql:
     kind: postgres
     host: 127.0.0.1
     port: 5432
@@ -251,7 +251,7 @@ You should see a JSON response with the list of tools specified in `tools.yaml`.
 }
 ```
 
-### 5 - Running the Agent Locally 
+### 4 - Running the Agent Locally 
 
 Now we're ready to run the ADK Python agent! 
 

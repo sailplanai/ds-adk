@@ -11,7 +11,7 @@ sources:
   #   kind: postgres
   #   host: 127.0.0.1
   #   port: 5432
-  #   database: tickets-db
+  #   database: ticketsdb
   #   user: postgres
   #   password: admin
 tools:
