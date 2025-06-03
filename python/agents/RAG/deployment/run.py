@@ -1,8 +1,11 @@
 import os
 import vertexai
 from vertexai import agent_engines
+from google.adk.sessions import VertexAiSessionService
 from dotenv import load_dotenv
 import json
+
+import asyncio
 
 def pretty_print_event(event):
     """Pretty prints an event with truncation for long content."""
@@ -44,17 +47,20 @@ vertexai.init(
     location=os.getenv("GOOGLE_CLOUD_LOCATION"),
 )
 
+session_service = VertexAiSessionService(project=os.getenv("GOOGLE_CLOUD_PROJECT"),location=os.getenv("GOOGLE_CLOUD_LOCATION"))
 AGENT_ENGINE_ID = os.getenv("AGENT_ENGINE_ID")
 
-agent_engine = agent_engines.get(AGENT_ENGINE_ID)
+session = asyncio.run(session_service.create_session(
+    app_name=AGENT_ENGINE_ID,
+    user_id="123",
+))
 
-session = agent_engine.create_session(user_id="123")
+agent_engine = agent_engines.get(AGENT_ENGINE_ID)
 
 queries = [
     "Hi, how are you?",
     "According to the MD&A, how might the increasing proportion of revenues derived from non-advertising sources like Google Cloud and devices potentially impact Alphabet's overall operating margin, and why?",
     "The report mentions significant investments in AI. What specific connection is drawn between these AI investments and the company's expectations regarding future capital expenditures?",
-    "What are the key risks and uncertainties associated with Alphabet's business operations?",
     "Thanks, I got all the information I need. Goodbye!",
 ]
 
@@ -62,7 +68,7 @@ for query in queries:
     print(f"\n[user]: {query}")
     for event in agent_engine.stream_query(
         user_id="123",
-        session_id=session['id'],
+        session_id=session.id,
         message=query,
     ):
         pretty_print_event(event)
