@@ -81,7 +81,7 @@ The key features of the Data Science Multi-Agent include:
     ```
 
 4.  **Set up Environment Variables:**
-    Rename the file ".env-example" to ".env"
+    Rename the file ".env.example" to ".env"
     Fill the below values:
 
     ```bash
