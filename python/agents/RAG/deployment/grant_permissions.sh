@@ -67,12 +67,19 @@ ROLE_ID="ragCorpusQueryRole"
 ROLE_TITLE="RAG Corpus Query Role"
 ROLE_DESCRIPTION="Custom role with permission to query RAG Corpus"
 
-echo "Creating custom role with aiplatform.ragCorpora.query permission..."
-gcloud iam roles create $ROLE_ID \
-  --project="$PROJECT_ID" \
-  --title="$ROLE_TITLE" \
-  --description="$ROLE_DESCRIPTION" \
-  --permissions="aiplatform.ragCorpora.query" \
+# Check if the custom role already exists
+echo "Checking if custom role $ROLE_ID exists..."
+if gcloud iam roles describe "$ROLE_ID" --project="$PROJECT_ID" &>/dev/null; then
+  echo "Custom role $ROLE_ID already exists."
+else
+  echo "Custom role $ROLE_ID does not exist. Creating it..."
+  gcloud iam roles create "$ROLE_ID" \
+    --project="$PROJECT_ID" \
+    --title="$ROLE_TITLE" \
+    --description="$ROLE_DESCRIPTION" \
+    --permissions="aiplatform.ragCorpora.query"
+  echo "Custom role $ROLE_ID created successfully."
+fi
 
 # Grant the custom role to the service account
 echo "Granting custom role for RAG Corpus query permissions for $RAG_CORPUS..."
