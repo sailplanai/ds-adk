@@ -26,7 +26,7 @@ The key features of the Software Bug Assistant Agent include:
 
 ## Key Features
 
-*   **Retrieval-Augmented Generation (RAG):** Leverages Cloud SQL's built-in [Vertex AI ML Integration](https://cloud.google.com/sql/docs/postgres/integrate-cloud-sql-with-vertex-ai?utm_campaign=CDR_0xc2a07d4f_awareness_b415807940&utm_medium=external&utm_source=social) to fetch relevant/duplicate software bugs.
+*   **Retrieval-Augmented Generation (RAG):** Leverages Cloud SQL's built-in [Vertex AI ML Integration](https://cloud.google.com/sql/docs/postgres/integrate-cloud-sql-with-vertex-ai) to fetch relevant/duplicate software bugs.
 *   **MCP Toolbox for Databases:** [MCP Toolbox for Databases](https://github.com/googleapis/genai-toolbox) to provide database-specific tools to our agent.
 
 ## Setup and Installation
@@ -36,7 +36,7 @@ The key features of the Software Bug Assistant Agent include:
 - Python 3.9+
 - [uv](https://docs.astral.sh/uv/getting-started/installation) (to manage dependencies)
 - Git (for cloning the repository, see [Installation Instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git))
-- Google Cloud CLI ([Installation Instructions](https://cloud.google.com/sdk/docs/install?utm_campaign=CDR_0xc2a07d4f_awareness_b415807940&utm_medium=external&utm_source=social))
+- Google Cloud CLI ([Installation Instructions](https://cloud.google.com/sdk/docs/install))
 
 ### Installation
 
@@ -76,7 +76,7 @@ echo "GOOGLE_API_KEY=<your_api_key_here>" >> .env \
 <details>
 <summary>Vertex AI</summary>
 
-To use Vertex AI, you will need to [create a Google Cloud project](https://developers.google.com/workspace/guides/create-project) and [enable Vertex AI](https://cloud.google.com/vertex-ai/docs/start/cloud-environment?utm_campaign=CDR_0xc2a07d4f_awareness_b415807940&utm_medium=external&utm_source=social).
+To use Vertex AI, you will need to [create a Google Cloud project](https://developers.google.com/workspace/guides/create-project) and [enable Vertex AI](https://cloud.google.com/vertex-ai/docs/start/cloud-environment).
 
 Authenticate and enable Vertex AI API:
 
@@ -290,7 +290,7 @@ Here are some example requests you may ask the agent:
 
 ## ☁️ Deploy to Google Cloud 
 
-These instructions walk through the process of deploying the Software Bug Assistant agent to Google Cloud, including Cloud Run and Cloud SQL (PostgreSQL). This setup also adds RAG capabilities to the tickets database, using the [google_ml_integration](https://cloud.google.com/blog/products/ai-machine-learning/google-ml-intergration-extension-for-cloud-sql?utm_campaign=CDR_0xc2a07d4f_awareness_b415807940&utm_medium=external&utm_source=social) vector plugin for Cloud SQL, and the `text-embeddings-005` model from Vertex AI.
+These instructions walk through the process of deploying the Software Bug Assistant agent to Google Cloud, including Cloud Run and Cloud SQL (PostgreSQL). This setup also adds RAG capabilities to the tickets database, using the [google_ml_integration](https://cloud.google.com/blog/products/ai-machine-learning/google-ml-intergration-extension-for-cloud-sql) vector plugin for Cloud SQL, and the `text-embeddings-005` model from Vertex AI.
 
 ![](deployment/images/google-cloud-architecture.png)
 
@@ -298,8 +298,8 @@ These instructions walk through the process of deploying the Software Bug Assist
 
 Deploying to Google Cloud requires:
 
-- A [Google Cloud project](https://cloud.google.com/resource-manager/docs/creating-managing-projects?utm_campaign=CDR_0xc2a07d4f_awareness_b415807940&utm_medium=external&utm_source=social) with billing enabled. 
-- `gcloud` CLI ([Installation instructions](https://cloud.google.com/sdk/docs/install?utm_campaign=CDR_0xc2a07d4f_awareness_b415807940&utm_medium=external&utm_source=social))
+- A [Google Cloud project](https://cloud.google.com/resource-manager/docs/creating-managing-projects) with billing enabled. 
+- `gcloud` CLI ([Installation instructions](https://cloud.google.com/sdk/docs/install))
 
 ### 1 - Authenticate the Google Cloud CLI, and enable Google Cloud APIs. 
 
@@ -330,7 +330,7 @@ gcloud sql instances create software-assistant \
 --root-password=admin
 ```
 
-Once created, you can view your instance in the Cloud Console [here](https://console.cloud.google.com/sql/instances/software-assistant/overview?utm_campaign=CDR_0xc2a07d4f_awareness_b415807940&utm_medium=external&utm_source=social).
+Once created, you can view your instance in the Cloud Console [here](https://console.cloud.google.com/sql/instances/software-assistant/overview).
 
 ### 3 - Create a SQL database, and grant Cloud SQL service account access to Vertex AI. 
 
@@ -590,7 +590,7 @@ Test the agent by asking questions like:
 ### Clean up 
 
 You can clean up this agent sample by: 
-- Deleting the [Artifact Registry](https://console.cloud.google.com/artifacts?utm_campaign=CDR_0xc2a07d4f_awareness_b415807940&utm_medium=external&utm_source=social). 
-- Deleting the two [Cloud Run Services](https://console.cloud.google.com/run?utm_campaign=CDR_0xc2a07d4f_awareness_b415807940&utm_medium=external&utm_source=social). 
-- Deleting the [Cloud SQL instance](https://console.cloud.google.com/sql/instances?utm_campaign=CDR_0xc2a07d4f_awareness_b415807940&utm_medium=external&utm_source=social). 
-- Deleting the [Secret Manager secret](https://console.cloud.google.com/security/secret-manager?utm_campaign=CDR_0xc2a07d4f_awareness_b415807940&utm_medium=external&utm_source=social). 
+- Deleting the [Artifact Registry](https://console.cloud.google.com/artifacts). 
+- Deleting the two [Cloud Run Services](https://console.cloud.google.com/run). 
+- Deleting the [Cloud SQL instance](https://console.cloud.google.com/sql/instances). 
+- Deleting the [Secret Manager secret](https://console.cloud.google.com/security/secret-manager). 
