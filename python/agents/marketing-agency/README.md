@@ -48,7 +48,7 @@ to implement this workflow.
     ```bash
     # Clone this repository.
     git clone https://github.com/google/adk-samples.git
-    cd adk-samples/python/agents/marketing_agency
+    cd adk-samples/python/agents/marketing-agency
     # Install the package and dependencies.
     poetry install
     ```
