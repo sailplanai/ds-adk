@@ -19,6 +19,7 @@ import os
 from google.adk.agents import Agent
 from google.adk.tools import google_search
 from google.adk.tools.agent_tool import AgentTool
+from google.adk.tools.mcp_tool import MCPToolset, StreamableHTTPConnectionParams
 from toolbox_core import ToolboxSyncClient
 
 from dotenv import load_dotenv
@@ -55,3 +56,14 @@ TOOLBOX_URL = os.getenv("MCP_TOOLBOX_URL", "http://127.0.0.1:5000")
 toolbox = ToolboxSyncClient(TOOLBOX_URL)
 # Load all the tools from toolset
 toolbox_tools = toolbox.load_toolset("tickets_toolset")
+
+
+# ----- Example of MCP Tools (streamable-http) -----
+mcp_tools = MCPToolset(
+    connection_params=StreamableHTTPConnectionParams(
+        url="https://api.githubcopilot.com/mcp/",
+        headers={
+            "Authorization": "Bearer " + os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN"),
+        }
+    )
+)

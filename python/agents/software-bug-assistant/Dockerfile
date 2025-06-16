@@ -11,11 +11,11 @@ ENV PYTHONUNBUFFERED=1
 ADD . /app
 
 # Install the project's dependencies using the lockfile and settings
-RUN uv sync --frozen --no-install-project --no-dev
+RUN uv sync --locked --no-install-project --no-dev
 
 # Then, add the rest of the project source code and install it
 # Installing separately from its dependencies allows optimal layer caching
-RUN uv sync --frozen --no-dev
+RUN uv sync --locked --no-dev
 
 # Place executables in the environment at the front of the path
 ENV PATH="/app/.venv/bin:$PATH"
