@@ -19,7 +19,10 @@ import os
 from google.adk.agents import Agent
 from google.adk.tools import google_search
 from google.adk.tools.agent_tool import AgentTool
+from google.adk.tools.langchain_tool import LangchainTool
 from google.adk.tools.mcp_tool import MCPToolset, StreamableHTTPConnectionParams
+from langchain_community.tools import StackExchangeTool
+from langchain_community.utilities import StackExchangeAPIWrapper
 from toolbox_core import ToolboxSyncClient
 
 from dotenv import load_dotenv
@@ -48,6 +51,10 @@ search_agent = Agent(
 
 search_tool = AgentTool(search_agent)
 
+# ----- Example of Third Party Tools (LangChainTool) -----
+stack_exchange_tool = StackExchangeTool(api_wrapper=StackExchangeAPIWrapper())
+# Convert LangChain tool to ADK tool using LangchainTool
+langchain_tool = LangchainTool(stack_exchange_tool)
 
 # ----- Example of Google Cloud Tools (MCP Toolbox for Databases) -----
 TOOLBOX_URL = os.getenv("MCP_TOOLBOX_URL", "http://127.0.0.1:5000")
