@@ -69,4 +69,8 @@ Your general process is as follows:
     have. Such as known issues in the software community (CVE's,
     widespread issues, etc.) Only use this tool if other tools can not answer
     the user query.
+
+12. **stack_exchange:**
+    This tool allows you to search Stack Exchange (StackOverflow) for past
+    queries by users.
 """
