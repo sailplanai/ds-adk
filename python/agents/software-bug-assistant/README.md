@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Software Bug Assistant is a sample agent designed to help IT Support and Software Developers triage, manage, and resolve software issues. This sample agent uses ADK Python, a PostgreSQL bug ticket database, RAG, and Google Search to assist in debugging. 
+The Software Bug Assistant is a sample agent designed to help IT Support and Software Developers triage, manage, and resolve software issues. This sample agent uses ADK Python, a PostgreSQL bug ticket database (internal tickets), GitHub MCP server (external tickets), RAG, Google Search, and StackOverflow to assist in debugging. 
 
 ![](deployment/images/google-cloud-architecture.png)
 
@@ -17,7 +17,7 @@ The key features of the Software Bug Assistant Agent include:
 | **Interaction Type** | Conversational |
 | **Complexity**       | Intermediate |
 | **Agent Type**       | Single Agent |
-| **Components**       | Tools, Database, RAG, Google Search |
+| **Components**       | Tools, Database, RAG, Google Search, GitHub MCP |
 | **Vertical**         | Horizontal / IT Support |
 
 ## Agent Architecture
@@ -28,6 +28,12 @@ The key features of the Software Bug Assistant Agent include:
 
 *   **Retrieval-Augmented Generation (RAG):** Leverages Cloud SQL's built-in [Vertex AI ML Integration](https://cloud.google.com/sql/docs/postgres/integrate-cloud-sql-with-vertex-ai) to fetch relevant/duplicate software bugs.
 *   **MCP Toolbox for Databases:** [MCP Toolbox for Databases](https://github.com/googleapis/genai-toolbox) to provide database-specific tools to our agent.
+*   **GitHub MCP Server:** Connects to [GitHub's remote MCP server](https://github.com/github/github-mcp-server?tab=readme-ov-file#remote-github-mcp-server)
+to fetch external software bugs (open issues, pull requests, etc).
+*   **Google Search:** Leverages Google Search as a built-in tool to fetch
+relevant search results in order to ground the agent's responses with external
+up-to-date knowledge.
+*   **StackOverflow:** Query [StackOverflow’s](https://stackoverflow.com/) powerful Q\&A data, using [LangChain’s extensive tools library](https://python.langchain.com/docs/integrations/tools/)— specifically, the [StackExchange API Wrapper tool.](https://python.langchain.com/docs/integrations/tools/stackexchange/). ADK comes with support for [third-party tools like LangChain tools](https://google.github.io/adk-docs/tools/third-party-tools/#1-using-langchain-tools)
 
 ## Setup and Installation
 
@@ -49,7 +55,22 @@ cd adk-samples/python/agents/software-bug-assistant
 
 2. Configure environment variables (via `.env` file):
 
-There are two different ways to call Gemini models:
+#### GitHub Personal Access Token (PAT)
+
+To authenticate with the GitHub MCP server, you need a GitHub Personal Access Token.
+
+1. Go to your GitHub [Developer settings](https://github.com/settings/tokens).
+2. Click on "Personal access tokens" -> "Tokens (classic)".
+3. Click "Generate new token" -> "Generate new token (classic)".
+4. Give your token a descriptive name.
+5. Set an expiration date for your token.
+6. Important: For security, grant your token the most limited scopes necessary. For read-only access to repositories, the `repo:status`, `public_repo`, and `read:user` scopes are often sufficient. Avoid granting full repo or admin permissions unless absolutely necessary.
+7. Click "Generate token".
+8. Copy the generated token.
+
+#### Gemini API Authentication
+
+There are two different ways to authenticate with Gemini models:
 
 - Calling the Gemini API directly using an API key created via Google AI Studio.
 - Calling Gemini models through Vertex AI APIs on Google Cloud.
@@ -64,11 +85,12 @@ There are two different ways to call Gemini models:
 
 Get an API Key from Google AI Studio: https://aistudio.google.com/apikey
 
-Create a `.env` file by running the following (replace `<your_api_key_here>` with your API key):
+Create a `.env` file by running the following (replace `<your_api_key_here>` with your API key and `<your_github_pat_here>` with your GitHub Personal Access Token):
 
 ```sh
 echo "GOOGLE_API_KEY=<your_api_key_here>" >> .env \
-&& echo "GOOGLE_GENAI_USE_VERTEXAI=FALSE" >> .env
+&& echo "GOOGLE_GENAI_USE_VERTEXAI=FALSE" >> .env \
+&& echo "GITHUB_PERSONAL_ACCESS_TOKEN=<your_github_pat_here>" >> .env
 ```
 
 </details>
@@ -87,11 +109,13 @@ gcloud config set project <your_project_id>
 gcloud services enable aiplatform.googleapis.com
 ```
 
-Create a `.env` file by running the following (replace `<your_project_id>` with your project ID):
+Create a `.env` file by running the following (replace `<your_project_id>` with your project ID and `<your_github_pat_here>` with your GitHub Personal Access Token):
+
 ```sh
 echo "GOOGLE_GENAI_USE_VERTEXAI=TRUE" >> .env \
 && echo "GOOGLE_CLOUD_PROJECT=<your_project_id>" >> .env \
-&& echo "GOOGLE_CLOUD_LOCATION=us-central1" >> .env
+&& echo "GOOGLE_CLOUD_LOCATION=us-central1" >> .env \
+&& echo "GITHUB_PERSONAL_ACCESS_TOKEN=<your_github_pat_here>" >> .env
 ```
 
 </details>
@@ -280,11 +304,12 @@ the URL. You may open the URL, select "software_bug_assistant" in the top-left d
 
 Here are some example requests you may ask the agent:
 
-- "What bugs are assigned to samuel.green@example.com?"
+- "Can you list all open internal ticket issues?"
 - "Can you bump the priority of ticket ID 7 to P0?"
-- "Which issues are currenlty marked as 'In Progress'?"
+- "Are there any discussions on StackOverflow about CVE-2024-3094?"
+- "Can you list the latest 5 open issues on the psf/requests GitHub repository?"
 
-![](deployment/images/adk-web.png)
+![](deployment/images/software-bug-agent.gif)
 
 ---------
 
@@ -321,13 +346,13 @@ gcloud services enable sqladmin.googleapis.com \
 
 ```bash
 gcloud sql instances create software-assistant \
---database-version=POSTGRES_16 \
---tier=db-custom-1-3840 \
---region=us-central1 \
---edition=ENTERPRISE \
---enable-google-ml-integration \
---database-flags cloudsql.enable_google_ml_integration=on \
---root-password=admin
+   --database-version=POSTGRES_16 \
+   --tier=db-custom-1-3840 \
+   --region=us-central1 \
+   --edition=ENTERPRISE \
+   --enable-google-ml-integration \
+   --database-flags cloudsql.enable_google_ml_integration=on \
+   --root-password=admin
 ```
 
 Once created, you can view your instance in the Cloud Console [here](https://console.cloud.google.com/sql/instances/software-assistant/overview).
@@ -551,7 +576,7 @@ gcloud builds submit --region=us-central1 --tag us-central1-docker.pkg.dev/$PROJ
 > If you are using Vertex AI instead of AI Studio for Gemini calls, you will need to replace `GOOGLE_API_KEY` with `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION`, and `GOOGLE_GENAI_USE_VERTEXAI=TRUE` in the last line of the below `gcloud run deploy` command.
 > 
 > ```bash
-> --set-env-vars=GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=us-central1,GOOGLE_GENAI_USE_VERTEXAI=TRUE,MCP_TOOLBOX_URL=$MCP_TOOLBOX_URL
+> --set-env-vars=GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=us-central1,GOOGLE_GENAI_USE_VERTEXAI=TRUE,MCP_TOOLBOX_URL=$MCP_TOOLBOX_URL,GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_PERSONAL_ACCESS_TOKEN
 > ```
 
 ```bash
@@ -559,7 +584,7 @@ gcloud run deploy software-bug-assistant \
   --image=us-central1-docker.pkg.dev/$PROJECT_ID/adk-samples/software-bug-assistant:latest \
   --region=us-central1 \
   --allow-unauthenticated \
-  --set-env-vars=GOOGLE_API_KEY=$GOOGLE_API_KEY,MCP_TOOLBOX_URL=$MCP_TOOLBOX_URL 
+  --set-env-vars=GOOGLE_API_KEY=$GOOGLE_API_KEY,MCP_TOOLBOX_URL=$MCP_TOOLBOX_URL,GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_PERSONAL_ACCESS_TOKEN 
 ```
 
 When this runs successfully, you should see: 

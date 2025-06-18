@@ -15,12 +15,12 @@
 from google.adk.agents import Agent
 
 from .prompt import agent_instruction
-from .tools.tools import get_current_date, search_tool, toolbox_tools
+from .tools.tools import get_current_date, langchain_tool, mcp_tools, search_tool, toolbox_tools
 
 
 root_agent = Agent(
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     name="software_assistant",
     instruction=agent_instruction,
-    tools=[get_current_date, search_tool, *toolbox_tools],
+    tools=[get_current_date, search_tool, langchain_tool, *toolbox_tools, mcp_tools],
 )

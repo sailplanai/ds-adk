@@ -19,6 +19,10 @@ import os
 from google.adk.agents import Agent
 from google.adk.tools import google_search
 from google.adk.tools.agent_tool import AgentTool
+from google.adk.tools.langchain_tool import LangchainTool
+from google.adk.tools.mcp_tool import MCPToolset, StreamableHTTPConnectionParams
+from langchain_community.tools import StackExchangeTool
+from langchain_community.utilities import StackExchangeAPIWrapper
 from toolbox_core import ToolboxSyncClient
 
 from dotenv import load_dotenv
@@ -37,7 +41,7 @@ def get_current_date() -> dict:
 
 # ----- Example of a Built-in Tool -----
 search_agent = Agent(
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     name="search_agent",
     instruction="""
     You're a specialist in Google Search.
@@ -47,11 +51,35 @@ search_agent = Agent(
 
 search_tool = AgentTool(search_agent)
 
+# ----- Example of a Third Party Tool (LangChainTool) -----
+stack_exchange_tool = StackExchangeTool(api_wrapper=StackExchangeAPIWrapper())
+# Convert LangChain tool to ADK tool using LangchainTool
+langchain_tool = LangchainTool(stack_exchange_tool)
 
-# ----- Example of Google Cloud Tools (MCP Toolbox for Databases) -----
+# ----- Example of a Google Cloud Tool (MCP Toolbox for Databases) -----
 TOOLBOX_URL = os.getenv("MCP_TOOLBOX_URL", "http://127.0.0.1:5000")
 
 # Initialize Toolbox client
 toolbox = ToolboxSyncClient(TOOLBOX_URL)
 # Load all the tools from toolset
 toolbox_tools = toolbox.load_toolset("tickets_toolset")
+
+
+# ----- Example of an MCP Tool (streamable-http) -----
+mcp_tools = MCPToolset(
+    connection_params=StreamableHTTPConnectionParams(
+        url="https://api.githubcopilot.com/mcp/",
+        headers={
+            "Authorization": "Bearer " + os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN"),
+        },
+    ),
+    # Read only tools
+    tool_filter=[
+        "search_repositories",
+        "search_issues",
+        "list_issues",
+        "get_issue",
+        "list_pull_requests",
+        "get_pull_request",
+    ],
+)
