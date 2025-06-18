@@ -51,12 +51,12 @@ search_agent = Agent(
 
 search_tool = AgentTool(search_agent)
 
-# ----- Example of Third Party Tools (LangChainTool) -----
+# ----- Example of a Third Party Tool (LangChainTool) -----
 stack_exchange_tool = StackExchangeTool(api_wrapper=StackExchangeAPIWrapper())
 # Convert LangChain tool to ADK tool using LangchainTool
 langchain_tool = LangchainTool(stack_exchange_tool)
 
-# ----- Example of Google Cloud Tools (MCP Toolbox for Databases) -----
+# ----- Example of a Google Cloud Tool (MCP Toolbox for Databases) -----
 TOOLBOX_URL = os.getenv("MCP_TOOLBOX_URL", "http://127.0.0.1:5000")
 
 # Initialize Toolbox client
@@ -65,12 +65,21 @@ toolbox = ToolboxSyncClient(TOOLBOX_URL)
 toolbox_tools = toolbox.load_toolset("tickets_toolset")
 
 
-# ----- Example of MCP Tools (streamable-http) -----
+# ----- Example of an MCP Tool (streamable-http) -----
 mcp_tools = MCPToolset(
     connection_params=StreamableHTTPConnectionParams(
         url="https://api.githubcopilot.com/mcp/",
         headers={
             "Authorization": "Bearer " + os.getenv("GITHUB_PERSONAL_ACCESS_TOKEN"),
-        }
-    )
+        },
+    ),
+    # Read only tools
+    tool_filter=[
+        "search_repositories",
+        "search_issues",
+        "list_issues",
+        "get_issue",
+        "list_pull_requests",
+        "get_pull_request",
+    ],
 )
