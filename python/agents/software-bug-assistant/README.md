@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Software Bug Assistant is a sample agent designed to help IT Support and Software Developers triage, manage, and resolve software issues. This sample agent uses ADK Python, a PostgreSQL bug ticket database (internal tickets), GitHub MCP server (external tickets), RAG, and Google Search to assist in debugging. 
+The Software Bug Assistant is a sample agent designed to help IT Support and Software Developers triage, manage, and resolve software issues. This sample agent uses ADK Python, a PostgreSQL bug ticket database (internal tickets), GitHub MCP server (external tickets), RAG, Google Search, and StackOverflow to assist in debugging. 
 
 ![](deployment/images/google-cloud-architecture.png)
 
@@ -29,10 +29,11 @@ The key features of the Software Bug Assistant Agent include:
 *   **Retrieval-Augmented Generation (RAG):** Leverages Cloud SQL's built-in [Vertex AI ML Integration](https://cloud.google.com/sql/docs/postgres/integrate-cloud-sql-with-vertex-ai) to fetch relevant/duplicate software bugs.
 *   **MCP Toolbox for Databases:** [MCP Toolbox for Databases](https://github.com/googleapis/genai-toolbox) to provide database-specific tools to our agent.
 *   **GitHub MCP Server:** Connects to [GitHub's remote MCP server](https://github.com/github/github-mcp-server?tab=readme-ov-file#remote-github-mcp-server)
-to fetch external software bugs (open issues and pull requests).
+to fetch external software bugs (open issues, pull requests, etc).
 *   **Google Search:** Leverages Google Search as a built-in tool to fetch
 relevant search results in order to ground the agent's responses with external
 up-to-date knowledge.
+*   **StackOverflow:** Query [StackOverflow’s](https://stackoverflow.com/) powerful Q\&A data, using [LangChain’s extensive tools library](https://python.langchain.com/docs/integrations/tools/)— specifically, the [StackExchange API Wrapper tool.](https://python.langchain.com/docs/integrations/tools/stackexchange/). ADK comes with support for [third-party tools like LangChain tools](https://google.github.io/adk-docs/tools/third-party-tools/#1-using-langchain-tools)
 
 ## Setup and Installation
 
@@ -303,11 +304,12 @@ the URL. You may open the URL, select "software_bug_assistant" in the top-left d
 
 Here are some example requests you may ask the agent:
 
-- "What bugs are assigned to samuel.green@example.com?"
+- "Can you list all open internal ticket issues?"
 - "Can you bump the priority of ticket ID 7 to P0?"
-- "Which issues are currenlty marked as 'In Progress'?"
+- "Are there any discussions on StackOverflow about CVE-2024-3094?"
+- "Can you list the latest 5 open issues on the psf/requests GitHub repository?"
 
-![](deployment/images/adk-web.png)
+![](deployment/images/software-bug-assistant.gif)
 
 ---------
 
