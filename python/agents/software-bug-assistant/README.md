@@ -309,7 +309,7 @@ Here are some example requests you may ask the agent:
 - "Are there any discussions on StackOverflow about CVE-2024-3094?"
 - "Can you list the latest 5 open issues on the psf/requests GitHub repository?"
 
-<![](deployment/images/software-bug-agent.gif)>
+![](deployment/images/software-bug-agent.gif)
 
 ---------
 
