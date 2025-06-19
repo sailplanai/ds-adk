@@ -21,7 +21,7 @@ from . import prompt
 from .sub_agents.academic_newresearch import academic_newresearch_agent
 from .sub_agents.academic_websearch import academic_websearch_agent
 
-MODEL = "gemini-2.5-pro-preview-05-06"
+MODEL = "gemini-2.5-pro"
 
 
 academic_coordinator = LlmAgent(

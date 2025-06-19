@@ -19,7 +19,7 @@ public class SoftwareBugAssistant {
     private static final Logger logger = Logger.getLogger(SoftwareBugAssistant.class.getName());
 
     // --- Define Constants ---
-    private static final String MODEL_NAME = "gemini-2.0-flash";
+    private static final String MODEL_NAME = "gemini-2.5-flash";
 
     // ROOT_AGENT needed for ADK Web UI. 
     public static BaseAgent ROOT_AGENT = initAgent();
@@ -48,7 +48,7 @@ public class SoftwareBugAssistant {
 
             // Add GoogleSearch tool - Workaround for https://github.com/google/adk-python/issues/134 
             LlmAgent googleSearchAgent = LlmAgent.builder()
-                    .model("gemini-2.0-flash")
+                    .model("gemini-2.5-flash")
                     .name("google_search_agent")
                     .description("Search Google Search")
                     .instruction("""

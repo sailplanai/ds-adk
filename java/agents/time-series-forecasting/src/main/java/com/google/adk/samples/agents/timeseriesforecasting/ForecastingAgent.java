@@ -31,7 +31,7 @@ public class ForecastingAgent {
     private static final Logger ADK_LOGGER = Logger.getLogger(ForecastingAgent.class.getName());
 
     private static final String AGENT_NAME = "time-series-forecasting";
-    private static final String MODEL_NAME = "gemini-2.0-flash";
+    private static final String MODEL_NAME = "gemini-2.5-flash";
     private static final String MCP_TOOLBOX_SERVER_URL_ENV_VAR = "MCP_TOOLBOX_SERVER_URL";
 
     public static BaseAgent ROOT_AGENT = initAgent();

@@ -23,7 +23,7 @@ from google.genai import Client, types
 
 from . import prompt
 
-MODEL = "gemini-2.5-pro-preview-05-06" 
+MODEL = "gemini-2.5-pro" 
 MODEL_IMAGE = "imagen-3.0-generate-002"
 
 load_dotenv()

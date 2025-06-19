@@ -29,7 +29,7 @@ from travel_concierge.tools.memory import _load_precreated_itinerary
 
 
 root_agent = Agent(
-    model="gemini-2.0-flash-001",
+    model="gemini-2.5-flash",
     name="root_agent",
     description="A Travel Conceirge using the services of multiple sub-agents",
     instruction=prompt.ROOT_AGENT_INSTR,

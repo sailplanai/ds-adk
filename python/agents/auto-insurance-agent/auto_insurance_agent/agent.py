@@ -20,7 +20,7 @@ from .tools import membership, claims, roadsideAssistance, rewards
 # Roadside sub-agent
 roadside_agent = Agent(
     name="roadside_agent",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     description="Provides roadside assistance, including towing services",
     instruction="""You are a specialized roadside assistance agent.
     You can dispatch services for towing, jump starting, refilling fuel, changing tires, and helping if the driver is locked out of their vehicle.
@@ -38,7 +38,7 @@ roadside_agent = Agent(
 # Membership sub-agent
 membership_agent = Agent(
     name="membership_agent",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     description="Registers new members",
     instruction="""You are a specialized assistant for creating customer memberships.
     You can register new member IDs.
@@ -54,7 +54,7 @@ membership_agent = Agent(
 # Claims sub-agent
 claims_agent = Agent(
     name="claims_agent",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     description="Opens claims",
     instruction="""You are a specialized assistant for handling auto insurance related claims.
     You can open new claims. Members can submit claims related to accidents, hail damage, or other miscellaneous incidents.
@@ -78,7 +78,7 @@ claims_agent = Agent(
 rewards_agent = Agent(
     name="rewards_agent",
     description="Finds nearby reward offers",
-    model="gemini-2.0-flash",
+    model="gemini-2.5-flash",
     instruction="""You are a specialized assistant for rewards.
     You can find nearby reward offers at locations such as shops, restaurants and theaters.
     Steps:
@@ -107,5 +107,5 @@ root_agent = Agent(
     When the user doesn't need anything else, politely thank them for contacting Cymbal Auto Insurance.""",
     sub_agents=[membership_agent, roadside_agent, claims_agent, rewards_agent],
     tools=[*membership.get_tools()],
-    model="gemini-2.0-flash"
+    model="gemini-2.5-flash"
 )
