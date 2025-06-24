@@ -1,0 +1,45 @@
+# Agent Academic Research
+/python/agents/academic-research/ gulli@google.com
+
+# Auto Insurance Agent
+/python/agents/auto-insurance-agent/ davidrush@google.com
+
+# Brand Search Optimization
+/python/agents/brand-search-optimization/ nikhilkul@google.com
+
+# Customer Service
+/python/agents/customer-service/ aniftos@google.com
+
+# Data Science
+/python/agents/data-science/ msubasioglu@google.com
+
+# Financial Advisor
+/python/agents/financial-advisor/ gulli@google.com
+
+# FOMC Research
+/python/agents/fomc-research/ styer@google.com
+
+# Gemini Fullstack
+/python/agents/gemini-fullstack/ amitdutta@google.com dmoonat@google.com eliasecchi@google.com erwinh@google.com lavinigam@google.com
+
+# LLM Auditor
+/python/agents/llm-auditor/ csferng@google.com cyroid@google.com dacheng@google.com ivanku@google.com
+
+# Marketing Agency
+/python/agents/marketing-agency/ gulli@google.com
+
+# Personalized Shopping
+/python/agents/personalized-shopping/ yiwensong@google.com
+
+# RAG
+/python/agents/RAG/ hangfei@google.com nemri@google.com
+
+# Software Bug Assistant
+/python/agents/software-bug-assistant/ jackwoth@google.com
+/java/agents/software-bug-assistant/ mokeefe@google.com
+
+# Travel Concierge
+/python/agents/travel-concierge/ gkcng@google.com asanthan@google.com xiaolizhang@google.com anishasjkaul@google.com drenfrowsymon@google.com
+
+# Time Series Forecasting
+/java/agents/time-series-forecasting/ kweinmeister@google.com
