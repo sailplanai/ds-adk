@@ -22,6 +22,9 @@
 # Gemini Fullstack
 /python/agents/gemini-fullstack/ @eliasecchig @lavinigam-gcp
 
+# Image Scoring
+/python/agents/image-scoring/ @kishorerj
+
 # LLM Auditor
 /python/agents/llm-auditor/ @csferng
 
