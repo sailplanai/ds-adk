@@ -143,6 +143,18 @@ This is the collaborative brainstorming phase.
 2.  The agent generates a high-level research plan with several key goals (e.g., "Analyze the market impact," "Identify key competitors").
 3.  The plan is presented to **you**. You can approve it, or chat with the agent to add, remove, or change goals until you're satisfied. Nothing happens without your explicit approval.
 
+The plan will contains following tags as a signal to downstream agents,
+  - Research Plan Tags
+
+    - [RESEARCH]: Guides info gathering via search.
+    - [DELIVERABLE]: Guides creation of final outputs (e.g., tables, reports).
+  
+  - Plan Refinement Tags
+
+    - [MODIFIED]: Goal was updated.
+    - [NEW]: New goal added per user.
+    - [IMPLIED]: Deliverable proactively added by AI.
+
 ### Phase 2: Execute Autonomous Research
 
 Once you approve the plan, the agent's `research_pipeline` takes over and works autonomously.
