@@ -29,12 +29,7 @@ from google.genai import types as genai_types
 from pydantic import BaseModel, Field
 
 from .config import config
-import os
-# Disable OpenTelemetry to avoid context management issues with incompatible GCP exporter
-os.environ["OTEL_SDK_DISABLED"] = "true"
 
-# Suppress OpenTelemetry warnings
-logging.getLogger("opentelemetry").setLevel(logging.ERROR)
 
 # --- Structured Output Models ---
 class SearchQuery(BaseModel):

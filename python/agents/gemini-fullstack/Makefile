@@ -1,6 +1,6 @@
 install:
 	@command -v uv >/dev/null 2>&1 || { echo "uv is not installed. Installing uv..."; curl -LsSf https://astral.sh/uv/0.6.12/install.sh | sh; source $HOME/.local/bin/env; }
-	uv sync --frozen && npm --prefix frontend install
+	uv sync && npm --prefix frontend install
 
 dev:
 	make dev-backend & make dev-frontend
