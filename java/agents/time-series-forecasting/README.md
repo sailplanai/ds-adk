@@ -71,7 +71,7 @@ No specific table creation is needed in your project for this sample if you are 
 
 ### 2. Set up and Run MCP Toolbox Server Locally 🛠️
 
-1. **Download MCP Toolbox**: Follow the instructions in the [MCP Toolbox documentation](https://googleapis.github.io/genai-toolbox/getting-started/introduction/#installing-the-server) to download the Toolbox binary.
+1. **Download MCP Toolbox**: Follow the instructions in the [MCP Toolbox documentation](https://googleapis.github.io/genai-toolbox/getting-started/introduction/#installing-the-server) to download the Toolbox binary. Version 0.8.0+ is required.
 2. **Configure `tools.yaml`**: This project includes a `tools.yaml` file.
     * As mentioned above, update the `project` under `bigquery_forecasting_source` to your Google Cloud Project ID.
     * This file defines several forecasting tools like `forecastIowaLiquorSalesTool`, `forecastTotalBikeRidesTool`, etc., which use BigQuery's `AI.FORECAST` function.

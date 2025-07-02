@@ -9,7 +9,7 @@ tools:
     source: bigquery_forecasting_source
     description: |
       Forecasts future Iowa Liquor Sales using AI.FORECAST on aggregated daily sales data.
-    parameters:
+    templateParameters:
       - name: horizon
         type: integer
         description: The number of time points to forecast in days.
@@ -18,7 +18,7 @@ tools:
         (SELECT date, SUM(bottles_sold) AS total_bottles_sold FROM `bigquery-public-data.iowa_liquor_sales.sales` GROUP BY date),
         data_col => 'total_bottles_sold',
         timestamp_col => 'date',
-        horizon => @horizon
+        horizon => {{.horizon}}
       )
 
   forecastTotalBikeRidesTool:
@@ -26,7 +26,7 @@ tools:
     source: bigquery_forecasting_source
     description: |
       Forecasts future total bike rides using AI.FORECAST on aggregated hourly rides data.
-    parameters:
+    templateParameters:
       - name: horizon
         type: integer
         description: The number of time points to forecast in hours.
@@ -40,7 +40,7 @@ tools:
         ),
         data_col => 'num_trips',
         timestamp_col => 'trip_hour',
-        horizon => @horizon,
+        horizon => {{.horizon}},
         confidence_level => 0.95
       )
 
@@ -49,7 +49,7 @@ tools:
     source: bigquery_forecasting_source
     description: |
       Forecasts future bike rides by subscriber type (Subscriber vs. Customer) using AI.FORECAST on aggregated hourly rides data.
-    parameters:
+    templateParameters:
       - name: horizon
         type: integer
         description: The number of time points to forecast in hours.
@@ -61,7 +61,7 @@ tools:
         GROUP BY TIMESTAMP_TRUNC(start_date, HOUR), subscriber_type),
         data_col => 'num_trips',
         timestamp_col => 'trip_hour',
-        horizon => @horizon,
+        horizon => {{.horizon}},
         confidence_level => 0.95,
         id_cols => ['subscriber_type']
       )
@@ -75,6 +75,7 @@ tools:
       - name: city
         type: string
         description: The city to forecast air quality for.
+    templateParameters:
       - name: horizon
         type: integer
         description: The number of time points to forecast in days.
@@ -87,7 +88,7 @@ tools:
         ),
         data_col => 'pm25',
         timestamp_col => 'date',
-        horizon => @horizon
+        horizon => {{.horizon}}
       )
 
 toolsets:
