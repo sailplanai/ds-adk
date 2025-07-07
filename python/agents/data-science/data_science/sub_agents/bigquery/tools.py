@@ -19,6 +19,8 @@ import logging
 import os
 import re
 
+import numpy as np
+import pandas as pd
 from data_science.utils.utils import get_env_var
 from google.adk.tools import ToolContext
 from google.cloud import bigquery
@@ -33,6 +35,28 @@ location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
 llm_client = Client(vertexai=True, project=project, location=location)
 
 MAX_NUM_ROWS = 80
+
+
+def _serialize_value_for_sql(value):
+    """Serializes a Python value from a pandas DataFrame into a BigQuery SQL literal."""
+    if pd.isna(value):
+        return "NULL"
+    if isinstance(value, str):
+        # Escape single quotes and backslashes for SQL strings.
+        return f"'{value.replace('\\', '\\\\').replace("'", "''")}'"
+    if isinstance(value, bytes):
+        return f"b'{value.decode('utf-8', 'replace').replace('\\', '\\\\').replace("'", "''")}'"
+    if isinstance(value, (datetime.datetime, datetime.date, pd.Timestamp)):
+        # Timestamps and datetimes need to be quoted.
+        return f"'{value}'"
+    if isinstance(value, (list, np.ndarray)):
+        # Format arrays.
+        return f"[{', '.join(_serialize_value_for_sql(v) for v in value)}]"
+    if isinstance(value, dict):
+        # For STRUCT, BQ expects ('val1', 'val2', ...).
+        # The values() order from the dataframe should match the column order.
+        return f"({', '.join(_serialize_value_for_sql(v) for v in value.values())})"
+    return str(value)
 
 
 database_settings = None
@@ -93,46 +117,100 @@ def get_bigquery_schema(dataset_id, client=None, project_id=None):
 
     ddl_statements = ""
 
-    for table in client.list_tables(dataset_ref):
-        table_ref = dataset_ref.table(table.table_id)
+    # Query INFORMATION_SCHEMA to robustly list tables. This is the recommended
+    # approach when a dataset may contain BigLake tables like Apache Iceberg,
+    # as the tables.list API can fail in those cases.
+    info_schema_query = f"""
+        SELECT table_name
+        FROM `{project_id}.{dataset_id}.INFORMATION_SCHEMA.TABLES`
+    """
+    query_job = client.query(info_schema_query)
+
+    for table_row in query_job.result():
+        table_ref = dataset_ref.table(table_row.table_name)
         table_obj = client.get_table(table_ref)
 
-        # Check if table is a view
-        if table_obj.table_type != "TABLE":
+        if table_obj.table_type == "VIEW":
+            view_query = table_obj.view_query
+            ddl_statements += (
+                f"CREATE OR REPLACE VIEW `{table_ref}` AS\n{view_query};\n\n"
+            )
             continue
+        elif table_obj.table_type == "EXTERNAL":
+            if (
+                table_obj.external_data_configuration
+                and table_obj.external_data_configuration.source_format
+                == "ICEBERG"
+            ):
+                config = table_obj.external_data_configuration
+                uris_list_str = ",\n    ".join(
+                    [f"'{uri}'" for uri in config.source_uris]
+                )
 
-        ddl_statement = f"CREATE OR REPLACE TABLE `{table_ref}` (\n"
+                # Build column definitions from schema
+                column_defs = []
+                for field in table_obj.schema:
+                    col_type = field.field_type
+                    if field.mode == "REPEATED":
+                        col_type = f"ARRAY<{col_type}>"
+                    column_defs.append(f"  `{field.name}` {col_type}")
+                columns_str = ",\n".join(column_defs)
 
-        for field in table_obj.schema:
-            ddl_statement += f"  `{field.name}` {field.field_type}"
-            if field.mode == "REPEATED":
-                ddl_statement += " ARRAY"
-            if field.description:
-                ddl_statement += f" COMMENT '{field.description}'"
-            ddl_statement += ",\n"
+                ddl_statements += f"""CREATE EXTERNAL TABLE `{table_ref}` (
+{columns_str}
+)
+WITH CONNECTION `{config.connection_id}`
+OPTIONS (
+  uris = [{uris_list_str}],
+  format = 'ICEBERG'
+);\n\n"""
+            # Skip DDL generation for other external tables.
+            continue
+        elif table_obj.table_type == "TABLE":
+            column_defs = []
+            for field in table_obj.schema:
+                col_type = field.field_type
+                if field.mode == "REPEATED":
+                    col_type = f"ARRAY<{col_type}>"
+                col_def = f"  `{field.name}` {col_type}"
+                if field.description:
+                    # Use OPTIONS for column descriptions
+                    col_def += (
+                        " OPTIONS(description='"
+                        f"{field.description.replace("'", "''")}')"
+                    )
+                column_defs.append(col_def)
 
-        ddl_statement = ddl_statement[:-2] + "\n);\n\n"
+            ddl_statement = (
+                f"CREATE OR REPLACE TABLE `{table_ref}` "
+                f"(\n{',\n'.join(column_defs)}\n);\n\n"
+            )
 
-        # Add example values if available (limited to first row)
-        rows = client.list_rows(table_ref, max_results=5).to_dataframe()
-        if not rows.empty:
-            ddl_statement += f"-- Example values for table `{table_ref}`:\n"
-            for _, row in rows.iterrows():  # Iterate over DataFrame rows
-                ddl_statement += f"INSERT INTO `{table_ref}` VALUES\n"
-                example_row_str = "("
-                for value in row.values:  # Now row is a pandas Series and has values
-                    if isinstance(value, str):
-                        example_row_str += f"'{value}',"
-                    elif value is None:
-                        example_row_str += "NULL,"
-                    else:
-                        example_row_str += f"{value},"
-                example_row_str = (
-                    example_row_str[:-1] + ");\n\n"
-                )  # remove trailing comma
-                ddl_statement += example_row_str
+            # Add example values if available by running a query. This is more
+            # robust than list_rows, especially for BigLake tables like Iceberg.
+            try:
+                sample_query = f"SELECT * FROM `{table_ref}` LIMIT 5"
+                rows = client.query(sample_query).to_dataframe()
 
-        ddl_statements += ddl_statement
+                if not rows.empty:
+                    ddl_statement += f"-- Example values for table `{table_ref}`:\n"
+                    for _, row in rows.iterrows():
+                        values_str = ", ".join(
+                            _serialize_value_for_sql(v) for v in row.values
+                        )
+                        ddl_statement += (
+                            f"INSERT INTO `{table_ref}` VALUES ({values_str});\n\n"
+                        )
+            except Exception as e:
+                logging.warning(
+                    f"Could not retrieve sample rows for table {table_ref.path}: {e}"
+                )
+                ddl_statement += f"-- NOTE: Could not retrieve sample rows for table {table_ref.path}.\n\n"
+
+            ddl_statements += ddl_statement
+        else:
+            # Skip other types like MATERIALIZED_VIEW, SNAPSHOT etc.
+            continue
 
     return ddl_statements
 
