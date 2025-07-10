@@ -28,11 +28,13 @@ from google.genai import Client
 
 from .chase_sql import chase_constants
 
-# Assume that `BQ_PROJECT_ID` is set in the environment. See the
-# `data_agent` README for more details.
-project = os.getenv("BQ_PROJECT_ID", None)
+# Assume that `BQ_COMPUTE_PROJECT_ID` and `BQ_DATA_PROJECT_ID` are set in the
+# environment. See the `data_agent` README for more details.
+data_project = os.getenv("BQ_DATA_PROJECT_ID", None)
+compute_project = os.getenv("BQ_COMPUTE_PROJECT_ID", None)
+vertex_project = os.getenv("GOOGLE_CLOUD_PROJECT", None)
 location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-llm_client = Client(vertexai=True, project=project, location=location)
+llm_client = Client(vertexai=True, project=vertex_project, location=location)
 
 MAX_NUM_ROWS = 80
 
@@ -67,7 +69,8 @@ def get_bq_client():
     """Get BigQuery client."""
     global bq_client
     if bq_client is None:
-        bq_client = bigquery.Client(project=get_env_var("BQ_PROJECT_ID"))
+        bq_client = bigquery.Client(
+            project=get_env_var("BQ_COMPUTE_PROJECT_ID"))
     return bq_client
 
 
@@ -83,12 +86,13 @@ def update_database_settings():
     """Update database settings."""
     global database_settings
     ddl_schema = get_bigquery_schema(
-        get_env_var("BQ_DATASET_ID"),
+        dataset_id=get_env_var("BQ_DATASET_ID"),
+        data_project_id=get_env_var("BQ_DATA_PROJECT_ID"),
         client=get_bq_client(),
-        project_id=get_env_var("BQ_PROJECT_ID"),
+        compute_project_id=get_env_var("BQ_COMPUTE_PROJECT_ID")
     )
     database_settings = {
-        "bq_project_id": get_env_var("BQ_PROJECT_ID"),
+        "bq_project_id": get_env_var("BQ_DATA_PROJECT_ID"),
         "bq_dataset_id": get_env_var("BQ_DATASET_ID"),
         "bq_ddl_schema": ddl_schema,
         # Include ChaseSQL-specific constants.
@@ -97,23 +101,27 @@ def update_database_settings():
     return database_settings
 
 
-def get_bigquery_schema(dataset_id, client=None, project_id=None):
+def get_bigquery_schema(dataset_id,
+                        data_project_id,
+                        client=None,
+                        compute_project_id=None):
     """Retrieves schema and generates DDL with example values for a BigQuery dataset.
 
     Args:
         dataset_id (str): The ID of the BigQuery dataset (e.g., 'my_dataset').
+        data_project_id (str): Project used for BQ data.
         client (bigquery.Client): A BigQuery client.
-        project_id (str): The ID of your Google Cloud Project.
+        compute_project_id (str): Project used for BQ compute.
 
     Returns:
         str: A string containing the generated DDL statements.
     """
 
     if client is None:
-        client = bigquery.Client(project=project_id)
+        client = bigquery.Client(project=compute_project_id)
 
     # dataset_ref = client.dataset(dataset_id)
-    dataset_ref = bigquery.DatasetReference(project_id, dataset_id)
+    dataset_ref = bigquery.DatasetReference(data_project_id, dataset_id)
 
     ddl_statements = ""
 
@@ -122,7 +130,7 @@ def get_bigquery_schema(dataset_id, client=None, project_id=None):
     # as the tables.list API can fail in those cases.
     info_schema_query = f"""
         SELECT table_name
-        FROM `{project_id}.{dataset_id}.INFORMATION_SCHEMA.TABLES`
+        FROM `{data_project_id}.{dataset_id}.INFORMATION_SCHEMA.TABLES`
     """
     query_job = client.query(info_schema_query)
 

@@ -194,7 +194,8 @@ def main(argv: list[str]) -> None:  # pylint: disable=unused-argument
     env_vars["BQML_AGENT_MODEL"] = os.getenv("BQML_AGENT_MODEL")
     env_vars["CHASE_NL2SQL_MODEL"] = os.getenv("CHASE_NL2SQL_MODEL")
     env_vars["BQ_DATASET_ID"] = os.getenv("BQ_DATASET_ID")
-    env_vars["BQ_PROJECT_ID"] = os.getenv("BQ_PROJECT_ID")
+    env_vars["BQ_DATA_PROJECT_ID"] = os.getenv("BQ_DATA_PROJECT_ID")
+    env_vars["BQ_COMPUTE_PROJECT_ID"] = os.getenv("BQ_COMPUTE_PROJECT_ID")
     env_vars["BQML_RAG_CORPUS_NAME"] = os.getenv("BQML_RAG_CORPUS_NAME")
     env_vars["CODE_INTERPRETER_EXTENSION_NAME"] = os.getenv(
         "CODE_INTERPRETER_EXTENSION_NAME")

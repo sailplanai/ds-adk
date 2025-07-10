@@ -104,15 +104,27 @@ The key features of the Data Science Multi-Agent include:
 
     _Walter Reade and Elizabeth Park. Forecasting Sticker Sales. https://kaggle.com/competitions/playground-series-s5e1, 2025. Kaggle._
 
-    *   First, set the BigQuery project ID in the `.env` file. This can be the same GCP Project you use for `GOOGLE_CLOUD_PROJECT`,
-        but you can use other BigQuery projects as well, as long as you have access permissions to that project.
-        If you have an existing BigQuery table you wish to connect, specify the `BQ_DATASET_ID` in the `.env` file as well.
-        Make sure you leave `BQ_DATASET_ID='forecasting_sticker_sales'` if you wish to use the sample data.
+    *   First, set the BigQuery project IDs in the `.env` file. This can be the
+        same GCP Project you use for `GOOGLE_CLOUD_PROJECT`, but you can use
+        other BigQuery projects as well, as long as you have access permissions
+        to that project.
+        *   In some cases you may want to separate the BigQuery compute consumption from
+            BigQuery data storage. You can set `BQ_DATA_PROJECT_ID` to the project you use
+            for data storage, and `BQ_COMPUTE_PROJECT_ID` to the project you want
+            to use for compute.
+        *   Otherwise, you can set both `BQ_DATA_PROJECT_ID` and
+            `BQ_COMPUTE_PROJECT_ID` to the same project id.
+
+        If you have an existing BigQuery table you wish to
+        connect, specify the `BQ_DATASET_ID` in the `.env` file as well.
+        Make sure you leave `BQ_DATASET_ID='forecasting_sticker_sales'` if you
+        wish to use the sample data.
 
         Alternatively, you can set the variables from your terminal:
 
         ```bash
-        export BQ_PROJECT_ID='YOUR-BQ-PROJECT-ID'
+        export BQ_DATA_PROJECT_ID='YOUR-BQ-DATA-PROJECT-ID'
+        export BQ_COMPUTE_PROJECT_ID='YOUR-BQ-COMPUTE-PROJECT-ID'
         export BQ_DATASET_ID='YOUR-DATASET-ID' # leave as 'forecasting_sticker_sales' if using sample data
         ```
 
