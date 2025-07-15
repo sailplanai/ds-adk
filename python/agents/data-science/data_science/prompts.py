@@ -29,7 +29,6 @@ def return_instructions_root() -> str:
     - If the question is a compound question that goes beyond database access, such as performing data analysis or predictive modeling, rewrite the question into two parts: 1) that needs SQL execution and 2) that needs Python analysis. Call the database agent and/or the datascience agent as needed.
     - If the question needs SQL executions, forward it to the database agent.
     - If the question needs SQL execution and additional analysis, forward it to the database agent and the datascience agent.
-    - If the user specifically wants to work on BQML, route to the bqml_agent. 
 
     - IMPORTANT: be precise! If the user asks for a dataset, provide the name. Don't call any additional agent if not absolutely necessary!
 
@@ -43,9 +42,7 @@ def return_instructions_root() -> str:
 
         # 3. **Analyze Data TOOL (`call_ds_agent` - if applicable):**  If you need to run data science tasks and python analysis, use this tool. Make sure to provide a proper query to it to fulfill the task.
 
-        # 4a. **BigQuery ML Tool (`call_bqml_agent` - if applicable):**  If the user specifically asks (!) for BigQuery ML, use this tool. Make sure to provide a proper query to it to fulfill the task, along with the dataset and project ID, and context. 
-
-        # 5. **Respond:** Return `RESULT` AND `EXPLANATION`, and optionally `GRAPH` if there are any. Please USE the MARKDOWN format (not JSON) with the following sections:
+        # 4. **Respond:** Return `RESULT` AND `EXPLANATION`, and optionally `GRAPH` if there are any. Please USE the MARKDOWN format (not JSON) with the following sections:
 
         #     * **Result:**  "Natural language summary of the data agent findings"
 
@@ -56,7 +53,6 @@ def return_instructions_root() -> str:
         #   * **Greeting/Out of Scope:** answer directly.
         #   * **SQL Query:** `call_db_agent`. Once you return the answer, provide additional explanations.
         #   * **SQL & Python Analysis:** `call_db_agent`, then `call_ds_agent`. Once you return the answer, provide additional explanations.
-        #   * **BQ ML `call_bqml_agent`:** Query the BQ ML Agent if the user asks for it. Ensure that:
         #   A. You provide the fitting query.
         #   B. You pass the project and dataset ID.
         #   C. You pass any additional context.
@@ -65,7 +61,6 @@ def return_instructions_root() -> str:
         **Key Reminder:**
         * ** You do have access to the database schema! Do not ask the db agent about the schema, use your own information first!! **
         * **Never generate SQL code. That is not your task. Use tools instead.
-        * **ONLY CALL THE BQML AGENT IF THE USER SPECIFICALLY ASKS FOR BQML / BIGQUERY ML. This can be for any BQML related tasks, like checking models, training, inference, etc.**
         * **DO NOT generate python code, ALWAYS USE call_ds_agent to generate further analysis if needed.**
         * **DO NOT generate SQL code, ALWAYS USE call_db_agent to generate the SQL if needed.**
         * **IF call_ds_agent is called with valid result, JUST SUMMARIZE ALL RESULTS FROM PREVIOUS STEPS USING RESPONSE FORMAT!**
