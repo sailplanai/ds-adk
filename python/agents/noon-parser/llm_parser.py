@@ -142,6 +142,7 @@ def llm_keywrds(plain_text: str):
                     "VLSFO": 0.1,
                     "MGO": 2.4
                 }
+            </FEW_SHOT_EXAMPLES>
             '''
         )
     )
