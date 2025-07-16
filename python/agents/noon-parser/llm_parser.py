@@ -33,6 +33,7 @@ def llm_keywrds(plain_text: str):
             response_mime_type="application/json",
             response_schema={
                 'required': ['date', 'fuel_consumed'],
+                'type': 'object',
                 'properties': {
                     'date': {'type': 'string', 'format': 'date-time'},
                     'fuel_consumed': {
@@ -43,27 +44,46 @@ def llm_keywrds(plain_text: str):
                             "IFO": {'type': 'number', "nullable": True},
                             "LSBF": {'type': 'number', "nullable": True},
                             "LSGO": {'type': 'number', "nullable": True}
-                        },
-                        "propertyOrdering": ["VLSFO", "MGO", "IFO"]
+                        }
                     }
-                },
-                'type': 'object'
+                }
             },
             system_instruction='''
             You are required to extract data from the provided text, which is from a maritime noon report email text.
             The email is a daily report from a shipping company, containing information about the ships, their
-            locations, and other relevant details. Your task is to extract the following information:
+            locations, and other relevant details. I will provide you with the text of the email in the contents parameter, and you will extract the required information.
+
+
+            <TASK>
+            Extract the following information from the email text:
             
             - Date of the email report
             - Fuel consumed by fuel types present in the report
 
-            I will provide you with the text of the email, and you will extract the required information.
-            Do not include any additional text or explanations, just return the JSON object.
-            Ensure that the date is in the format YYYY-MM-DD and the fuel amounts are numerical values.
-            If any information is missing or cannot be determined, leave that field out of the JSON object.
-            If the email does not contain any relevant information, return an empty JSON object.
-            
-            Example of email text:
+            **Key Reminder:**
+            * ** Date formats might vary but look for date formats like:
+            *   - "24th Jan'25" 
+            *   - "24/01/2025"
+            *   - "January 24, 2025"
+            * ** Look for variations in how fuel consmption might be reported, such as:
+            *   - "Bunkers consumed in last 24 hours: VLSFO - 0.1mt, MGO - 2.4mt"
+            *   - "24hr consumption: VLSFO: 1.2 MT, MGO: 0.4 MT"
+            *   - "Consumed: HSFO: nil / VLSFO: 22.4mt / LSGO: nil"
+            *   - "Fuel Used: 10.2MT VLSFO"
+            </TASK>
+
+            <CONSTRAINTS>
+                * **Schema Adherence:**  **Strictly adhere to the provided schema in the response_schema variable.**  Do not invent or assume any data or schema elements beyond what is given.
+                * **If the email does not contain any relevant information, return an empty JSON object.
+                * **Do not include any additional text or explanations, just return the JSON object.
+                * **Ensure that the date is in the format YYYY-MM-DD and the fuel amounts are numerical values.
+                * **If any information is missing or cannot be determined, leave that field out of the JSON object.
+
+
+            </CONSTRAINTS>
+
+            <FEW_SHOT_EXAMPLES>
+            1. **Example of an email text:**
             ```
             To: Core Petroleum
 
@@ -115,7 +135,7 @@ def llm_keywrds(plain_text: str):
             *********************************************
             ```
 
-            Example of expected output given the above email text:
+            **Example of expected output:**:
             {
                 "date": "2025-01-24",
                 "fuel_consumed": {
