@@ -6,10 +6,31 @@ from google.genai import types
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
+from typing import Optional, List, Literal, Union
+from datetime import date, datetime
 
 load_dotenv()
 
-def download_and_parse_eml(gcs_path):
+
+FuelType = Literal["VLSFO", "MGO", "IFO", "LSBF", "LSGO"]
+
+class FuelEngineValue(BaseModel):
+    me1: Optional[float] = None
+    me2: Optional[float] = None
+    me3: Optional[float] = None
+    me4: Optional[float] = None
+    me5: Optional[float] = None
+
+class KeyValuePair(BaseModel):
+    fuel_type: FuelType
+    value: Union[float, FuelEngineValue]
+
+class LLMParserResponse(BaseModel):
+    date: datetime
+    # List of fuel type-value pairs instead of a dict
+    fuel_consumed: List[KeyValuePair]
+
+def download_and_parse_eml(gcs_path: str):
     bucket_name, blob_name = gcs_path.replace("gs://", "").split("/", 1)
     client = storage.Client()
     blob = client.bucket(bucket_name).blob(blob_name)
@@ -31,23 +52,7 @@ def llm_keywrds(plain_text: str):
             temperature=0.01,
             max_output_tokens=1000,
             response_mime_type="application/json",
-            response_schema={
-                'required': ['date', 'fuel_consumed'],
-                'type': 'object',
-                'properties': {
-                    'date': {'type': 'string', 'format': 'date-time'},
-                    'fuel_consumed': {
-                        'type': 'object',
-                        'properties': {
-                            "VLSFO": {'type': 'number', "nullable": True},
-                            "MGO": {'type': 'number', "nullable": True},
-                            "IFO": {'type': 'number', "nullable": True},
-                            "LSBF": {'type': 'number', "nullable": True},
-                            "LSGO": {'type': 'number', "nullable": True}
-                        }
-                    }
-                }
-            },
+            response_schema=LLMParserResponse,
             system_instruction='''
             You are required to extract data from the provided text, which is from a maritime noon report email text.
             The email is a daily report from a shipping company, containing information about the ships, their
@@ -70,6 +75,7 @@ def llm_keywrds(plain_text: str):
             *   - "24hr consumption: VLSFO: 1.2 MT, MGO: 0.4 MT"
             *   - "Consumed: HSFO: nil / VLSFO: 22.4mt / LSGO: nil"
             *   - "Fuel Used: 10.2MT VLSFO"
+            * ** Engines should be 1-indexed, meaning the first engine is referred to as "me1", the second as "me2", and so on.
             </TASK>
 
             <CONSTRAINTS>
@@ -138,10 +144,104 @@ def llm_keywrds(plain_text: str):
             **Example of expected output:**:
             {
                 "date": "2025-01-24",
-                "fuel_consumed": {
-                    "VLSFO": 0.1,
-                    "MGO": 2.4
-                }
+                "fuel_consumed": [
+                    {
+                        "fuel_type": "VLSFO",
+                        "value": 0.1
+                    },
+                    {
+                        "fuel_type": "MGO",
+                        "value": 2.4
+                    }
+                ]
+            }
+
+
+            2. **Example of an email text:**
+            ```
+            [REPORT TYPE : NOON]
+            [VCVNIVer : 1.7]
+            [Vessel : Libra Sun]
+            [PositionDate : 2025/01/24 2000]
+            [NOONOffset : -8]
+            [ETA : 2025/01/26 0300]
+            [NextPortOffset : -8]
+            [NOONLat : 37-12.4N]
+            [NOONLon : 122-41.9W]
+            [TimeSLR : 2.70]
+            [Course : 165.00]
+            [AvgSpdSLR : 11.10]
+            [AvgSpdSinceCOSP : 11.10]
+            [DistSinceCOSP : 30.00]
+            [DistToGo : 345.00]
+            [WindBF : 3]
+            [WindDir : 315]
+            [SwellDir : 315]
+            [SwellHt : 2.0]
+            [SeasHt : 0.5]
+            [SpdInst : 11.00]
+            [WarrantedCons : ]
+            [Remarks : ]
+            [NextPort : LONG BEACH]
+            [DistSLR : 30.00]
+            [ECADistSLR : 30.00]
+            [ECAZone : US]
+            [AvgRpmSLR : 70.20]
+            [SlipSLR : -6.3]
+            [MCR : 39.000]
+            [CargoTemp : ]
+            [FreshWaterBROB : 476.000]
+            [DraftAft : 8.00]
+            [DraftFore : 6.00]
+            [mt_LSBF : 418.500]
+            [mt_LSGO : 343.700]
+            [tank_LSBF : 0]
+            [tank_LSGO : 0]
+            [slr_LSBF : 0]
+            [slr_LSGO : 2.850]
+            [scosp_LSBF : 0]
+            [scosp_LSGO : 2.850]
+            [slrNet_LSBF : 0]
+            [slrNet_LSGO : 0.000]
+            [scospNet_LSBF : 0]
+            [scospNet_LSGO : 0.000]
+            [slr_Usage_0 : Maneuver]
+            [slr_Engine_0 : Main]
+            [slr_LSBF_0 : 0]
+            [slr_LSGO_0 : 2.500]
+            [slr_Usage_1 : Maneuver]
+            [slr_Engine_1 : Aux]
+            [slr_LSBF_1 : 0]
+            [slr_LSGO_1 : 0.350]
+            [slr_Usage_2 : Maneuver]
+            [slr_Engine_2 : Boiler]
+            [slr_LSBF_2 : 0]
+            [slr_LSGO_2 : 0.000]
+            [scosp_Usage_0 : Maneuver]
+            [scosp_Engine_0 : Main]
+            [scosp_LSBF_0 : 0]
+            [scosp_LSGO_0 : 2.500]
+            [scosp_Usage_1 : Maneuver]
+            [scosp_Engine_1 : Aux]
+            [scosp_LSBF_1 : 0]
+            [scosp_LSGO_1 : 0.350]
+            [scosp_Usage_2 : Maneuver]
+            [scosp_Engine_2 : Boiler]
+            [scosp_LSBF_2 : 0]
+            [scosp_LSGO_2 : 0]
+            ```
+
+            **Example of expected output:**:
+            {
+                "date": "2025-01-24",
+                "fuel_consumed": [
+                    {
+                        "fuel_type": "LSBF",
+                        "value": {"me1": 0.0, "me2": 0.0, "me3": 0.0}
+                    },
+                    {
+                        "fuel_type": "LSGO",
+                        "value": {"me1": 2.5, "me2": 0.35, "me3": 0.0}
             </FEW_SHOT_EXAMPLES>
             '''
         )
@@ -152,7 +252,7 @@ def main(gcs_path):
     plain_text = download_and_parse_eml(gcs_path)
     if not plain_text:
         return {}
-    print(plain_text)
+    #print(plain_text)
 
     response = llm_keywrds(plain_text)
     if not response:
@@ -162,8 +262,12 @@ def main(gcs_path):
     
 if __name__ == "__main__":
     # Example usage
-    gcs_path = "gs://noon-reports-dev/year=2025/month=01/day=24/LIBRA SUN RICHMOND TO LONG BEACH_108SV32_ Q88 - Daily Noon Report.eml"
+    gcs_path1 = "gs://noon-reports-dev/year=2025/month=01/day=24/LIBRA SUN RICHMOND TO LONG BEACH _108SV32_ - Daily Noon Report.eml"
+    gcs_path2 = "gs://noon-reports-dev/year=2025/month=01/day=24/LIBRA SUN RICHMOND TO LONG BEACH_108SV32_ Q88 - Daily Noon Report.eml"
 
-    parsed_response = main(gcs_path)
+    parsed_response = main(gcs_path1)
+    print(parsed_response)
+
+    parsed_response = main(gcs_path2)
     print(parsed_response)
 
