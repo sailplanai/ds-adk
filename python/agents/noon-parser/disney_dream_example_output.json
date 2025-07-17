@@ -1,0 +1,10 @@
+{
+    "date": "2023-12-29",
+    "fuel_consumed": [
+        {
+            "fuel_type": "MGO",
+            "value": 100.1
+        }
+    ],
+    "power_generated": 385
+}
