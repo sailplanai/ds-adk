@@ -161,21 +161,21 @@ if __name__ == "__main__":
     gcs_path_3 = 'gs://noon-reports-dev/year=2024/month=01/day=11/11 JAN .pdf'
     example_gcs_path = 'gs://noon-reports-dev/year=2023/month=12/day=29/29 December .pdf'
     
-    with open ('python/agents/noon-parser/disney_dream_example_output.json', 'r') as f:
+    with open ('python/agents/noon-parser/example_outputs/disney_dream_example_output.json', 'r') as f:
         example_output_3 = f.read()
 
     parsed_response = main(gcs_path_3, example_gcs_path, example_output_3)
     print(f"Disney Dream Noon Report: \n {parsed_response}\n")
 
 
-    with open ('python/agents/noon-parser/libra_sun_example_output_2.json', 'r') as f:
+    with open ('python/agents/noon-parser/example_outputs/libra_sun_example_output_2.json', 'r') as f:
         example_output_2 = f.read()
 
     parsed_response = main(gcs_path_1, example_gcs_path = gcs_path_2, example_output=example_output_2)
     print(f"Libra Sun Human Email: \n {parsed_response}\n")
 
 
-    with open ('python/agents/noon-parser/libra_sun_example_output_2.json', 'r') as f:
+    with open ('python/agents/noon-parser/example_outputs/libra_sun_example_output_2.json', 'r') as f:
         example_output_1 = f.read()
 
     parsed_response = main(gcs_path_2, example_gcs_path = gcs_path_1, example_output=example_output_1)
