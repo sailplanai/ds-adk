@@ -165,20 +165,20 @@ if __name__ == "__main__":
         example_output_3 = f.read()
 
     parsed_response = main(gcs_path_3, example_gcs_path, example_output_3)
-    print(parsed_response)
+    print(f"Disney Dream Noon Report: \n {parsed_response}\n")
 
 
     with open ('python/agents/noon-parser/libra_sun_example_output_2.json', 'r') as f:
         example_output_2 = f.read()
 
     parsed_response = main(gcs_path_1, example_gcs_path = gcs_path_2, example_output=example_output_2)
-    print(parsed_response)
+    print(f"Libra Sun Human Email: \n {parsed_response}\n")
 
 
     with open ('python/agents/noon-parser/libra_sun_example_output_2.json', 'r') as f:
         example_output_1 = f.read()
 
     parsed_response = main(gcs_path_2, example_gcs_path = gcs_path_1, example_output=example_output_1)
-    print(parsed_response)
+    print(f"Libra Sun Coded Email: \n {parsed_response}\n")
 
 
