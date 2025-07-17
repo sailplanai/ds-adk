@@ -1,0 +1,13 @@
+{
+    "date": "2025-01-24",
+    "fuel_consumed": [
+        {
+            "fuel_type": "VLSFO",
+            "value": 0.1
+        },
+        {
+            "fuel_type": "MGO",
+            "value": 2.4
+        }
+    ]
+}

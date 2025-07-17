@@ -1,0 +1,13 @@
+{
+    "date": "2025-01-24",
+    "fuel_consumed": [
+        {
+            "fuel_type": "LSBF",
+            "value": {"me1": 0.0, "me2": 0.0, "me3": 0.0}
+        },
+        {
+            "fuel_type": "LSGO",
+            "value": {"me1": 2.5, "me2": 0.35, "me3": 0.0}
+        }
+    ]
+}

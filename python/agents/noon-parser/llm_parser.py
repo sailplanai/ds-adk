@@ -62,11 +62,25 @@ def download_and_parse_gcs(gcs_path: str):
     else:
         raise ValueError("Unsupported file type: must be .eml or .pdf")
 
-def llm_keywrds_eml(plain_text: str):
+def llm_keywrds_eml(plain_text: str, example_email=None, example_output=None):
     client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+    
+    # If we have an example file and output, include them in the prompt
+
+    contents = f"""
+                Example email 1 (below):
+                {example_email}
+                
+                Example email 1 expected output (below):
+                {example_output} 
+                
+                Target email (below):
+                {plain_text}
+        """
+
     response = client.models.generate_content(
         model="gemini-2.5-flash",
-        contents=plain_text,
+        contents=contents,
         config=types.GenerateContentConfig(
             thinking_config = types.ThinkingConfig(thinking_budget=0),
             temperature=0.01,
@@ -133,7 +147,7 @@ def main(target_gcs_path: str, example_gcs_path: str = None, example_output: str
     if target_gcs_path.lower().endswith('.pdf'):
         response = llm_keywrds_pdf(target_noon_report, example_noon_report, example_output)
     elif target_gcs_path.lower().endswith('.eml'):
-        response = llm_keywrds_eml(target_noon_report)
+        response = llm_keywrds_eml(target_noon_report, example_noon_report, example_output)
 
     if not response:
         return {}
@@ -142,20 +156,29 @@ def main(target_gcs_path: str, example_gcs_path: str = None, example_output: str
     
 if __name__ == "__main__":
     # Example usage
-    gcs_path1 = "gs://noon-reports-dev/year=2025/month=01/day=24/LIBRA SUN RICHMOND TO LONG BEACH _108SV32_ - Daily Noon Report.eml"
-    gcs_path2 = "gs://noon-reports-dev/year=2025/month=01/day=24/LIBRA SUN RICHMOND TO LONG BEACH_108SV32_ Q88 - Daily Noon Report.eml"
-    gcs_path3 = 'gs://noon-reports-dev/year=2024/month=01/day=11/11 JAN .pdf'
+    gcs_path_1 = "gs://noon-reports-dev/year=2025/month=01/day=24/LIBRA SUN RICHMOND TO LONG BEACH _108SV32_ - Daily Noon Report.eml"
+    gcs_path_2 = "gs://noon-reports-dev/year=2025/month=01/day=24/LIBRA SUN RICHMOND TO LONG BEACH_108SV32_ Q88 - Daily Noon Report.eml"
+    gcs_path_3 = 'gs://noon-reports-dev/year=2024/month=01/day=11/11 JAN .pdf'
     example_gcs_path = 'gs://noon-reports-dev/year=2023/month=12/day=29/29 December .pdf'
     
     with open ('python/agents/noon-parser/disney_dream_example_output.json', 'r') as f:
-        example_output = f.read()
+        example_output_3 = f.read()
 
-    parsed_response = main(gcs_path1)
+    parsed_response = main(gcs_path_3, example_gcs_path, example_output_3)
     print(parsed_response)
 
-    parsed_response = main(gcs_path2)
+
+    with open ('python/agents/noon-parser/libra_sun_example_output_2.json', 'r') as f:
+        example_output_2 = f.read()
+
+    parsed_response = main(gcs_path_1, example_gcs_path = gcs_path_2, example_output=example_output_2)
     print(parsed_response)
 
-    parsed_response = main(gcs_path3, example_gcs_path, example_output)
+
+    with open ('python/agents/noon-parser/libra_sun_example_output_2.json', 'r') as f:
+        example_output_1 = f.read()
+
+    parsed_response = main(gcs_path_2, example_gcs_path = gcs_path_1, example_output=example_output_1)
     print(parsed_response)
+
 
