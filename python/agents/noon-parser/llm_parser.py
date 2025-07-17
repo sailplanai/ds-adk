@@ -32,7 +32,7 @@ class LLMParserResponse(BaseModel):
     date: datetime
     # List of fuel type-value pairs instead of a dict
     fuel_consumed: List[FuelKeyValuePair]
-    power_generated: Optional[float]
+    power_generated: Optional[float] = None
 
 def download_and_parse_eml(gcs_path: str):
     bucket_name, blob_name = gcs_path.replace("gs://", "").split("/", 1)
@@ -68,6 +68,7 @@ def llm_keywrds_eml(plain_text: str):
         model="gemini-2.5-flash",
         contents=plain_text,
         config=types.GenerateContentConfig(
+            thinking_config = types.ThinkingConfig(thinking_budget=0),
             temperature=0.01,
             max_output_tokens=1000,
             response_mime_type="application/json",
@@ -96,24 +97,30 @@ def llm_keywrds_pdf(file, example_file=None, example_output=None):
     contents.append(content_file)
     
     # Improved printing of contents for debugging
-    for i, content in enumerate(contents):
-        if isinstance(content, str):
-            print(f"Item {i}: Text - {content}")
-        else:
-            # This is likely a file object
-            print(f"Item {i}: File object - {type(content)}")
+    # for i, content in enumerate(contents):
+    #     if isinstance(content, str):
+    #         print(f"Item {i}: Text - {content}")
+    #     else:
+    #         # This is likely a file object
+    #         print(f"Item {i}: File object - {type(content)}")
 
     response = client.models.generate_content(
         model="gemini-2.5-flash",
         contents=contents,
         config=types.GenerateContentConfig(
+            thinking_config=types.ThinkingConfig(thinking_budget=0), # Striaghtforward request, no complex reasoning needed "Fact Retrieval or classification"
             temperature=0.01,
-            max_output_tokens=5000,
+            max_output_tokens=1000,
             response_mime_type="application/json",
             response_schema=LLMParserResponse,
             system_instruction=return_pdf_instructions()
         )
     )
+    # print(f"Request tokens: {response.usage_metadata.prompt_token_count}")
+    # print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
+    # print(f"Total tokens: {response.usage_metadata.total_token_count}")
+    
+
     return response.text
 
 def main(target_gcs_path: str, example_gcs_path: str = None, example_output: str = None):
@@ -125,6 +132,9 @@ def main(target_gcs_path: str, example_gcs_path: str = None, example_output: str
     #print(plain_text)
     if target_gcs_path.lower().endswith('.pdf'):
         response = llm_keywrds_pdf(target_noon_report, example_noon_report, example_output)
+    elif target_gcs_path.lower().endswith('.eml'):
+        response = llm_keywrds_eml(target_noon_report)
+
     if not response:
         return {}
 
@@ -140,11 +150,11 @@ if __name__ == "__main__":
     with open ('python/agents/noon-parser/disney_dream_example_output.json', 'r') as f:
         example_output = f.read()
 
-    # parsed_response = main(gcs_path1)
-    # print(parsed_response)
+    parsed_response = main(gcs_path1)
+    print(parsed_response)
 
-    # parsed_response = main(gcs_path2)
-    # print(parsed_response)
+    parsed_response = main(gcs_path2)
+    print(parsed_response)
 
     parsed_response = main(gcs_path3, example_gcs_path, example_output)
     print(parsed_response)
